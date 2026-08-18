@@ -533,7 +533,3 @@ function Index() {
 
           <p className="mx-auto mt-20 max-w-3xl text-center text-2xl font-light md:text-4xl">
             Cinco años después, Daniel ya no maneja:{
-      </div>
-    </main>
-  );
-}
