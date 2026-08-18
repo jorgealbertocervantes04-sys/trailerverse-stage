@@ -12,8 +12,9 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Presentación 3D interactiva: la historia de quien entra al autotransporte, qué trailer comprar, cómo fundar la empresa, y los problemas que nadie te cuenta.",
+          "Presentación 3D interactiva: la historia de quien entra al autotransporte, qué trailer comprar, cómo fundar la empresa, los problemas ocultos y lo que conlleva estar al mando de una flota.",
       },
+
       { property: "og:title", content: "De un trailer a una flota" },
       {
         property: "og:description",
