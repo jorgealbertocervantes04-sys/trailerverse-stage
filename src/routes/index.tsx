@@ -134,6 +134,48 @@ const flota = [
   { f: "Año 4+", t: "Flota y estructura", d: "Taller, control de despacho, contratos anuales y márgenes previsibles." },
 ];
 
+const mando = [
+  {
+    f: "Despacho",
+    t: "El corazón del día a día",
+    d: "Decidir qué unidad va a qué carga, por qué ruta, a qué hora y con qué operador. Un mal despacho deja trailers parados, clientes enojados y dinero en la mesa.",
+  },
+  {
+    f: "Clientes",
+    t: "Cobrar es parte del servicio",
+    d: "Negociar contratos, cobrar a tiempo, decir que no a fletes que no pagan lo suficiente. El dueño es el primer vendedor y el último cobrador.",
+  },
+  {
+    f: "Operadores",
+    t: "Gente, no solo licencias",
+    d: "Contratar, capacitar, escuchar, retener y, a veces, despedir. Un buen operador vale más que una unidad nueva; un mal clima laboral se nota en los siniestros.",
+  },
+  {
+    f: "Taller",
+    t: "Mantenimiento como política",
+    d: "Decidir cuándo se repara, cuándo se prefiere prevenir y cuánto gastar. El dueño que no controla el taller pierde el control de la flota.",
+  },
+  {
+    f: "Finanzas",
+    t: "Ver el dinero a 90 días",
+    d: "Flujo de caja, utilidad real, reservas para llantas, multas y temporadas muertas. La empresa quebrada suele tener facturas, no ventas.",
+  },
+  {
+    f: "Cumplimiento",
+    t: "La norma no negocia",
+    d: "Permisos vigentes, verificaciones, seguros, documentación de carga y seguridad. Un solo trámite vencido puede parar toda la operación.",
+  },
+];
+
+const evolucion = [
+  { etapa: "Día 1", rol: "Operador y dueño", desc: "Tú manejas, cargas gasolina, negocias el flete y duermes en la cabina." },
+  { etapa: "Mes 6", rol: "Coordinador", desc: "Contratas primer operador. Empiezas a despertarte por llamadas de rutas y fallas." },
+  { etapa: "Año 1", rol: "Empresario", desc: "Formalizas, facturas, controlas costos y decides si reinviertes o cobras utilidad." },
+  { etapa: "Año 3", rol: "Gerente", desc: "Tienes despachador, taller y clientes recurrentes. Tu trabajo es pensar, no conducir." },
+  { etapa: "Año 5+", rol: "Director", desc: "Estrategia, financiamiento, expansión y cultura. La empresa ya puede crecer sin ti al volante." },
+];
+
+
 function Index() {
   const [rotY, setRotY] = useState(-28);
   const [rotX, setRotX] = useState(12);
