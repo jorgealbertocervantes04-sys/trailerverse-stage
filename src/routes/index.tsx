@@ -8,17 +8,17 @@ import fleetImg from "@/assets/trailer-fleet.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Trailers 3D — Presentación inmersiva de tractocamiones" },
+      { title: "De un trailer a una flota — Historia 3D del transporte" },
       {
         name: "description",
         content:
-          "Recorrido 3D interactivo por el mundo de los trailers: anatomía, tipos de caja, logística y cifras clave del autotransporte.",
+          "Presentación 3D interactiva: la historia de quien entra al autotransporte, qué trailer comprar, cómo fundar la empresa, y los problemas que nadie te cuenta.",
       },
-      { property: "og:title", content: "Trailers 3D — Presentación inmersiva" },
+      { property: "og:title", content: "De un trailer a una flota" },
       {
         property: "og:description",
         content:
-          "Explora un tractocamión en 3D, arrástralo, descubre sus partes y las cifras del transporte de carga.",
+          "Recorrido inmersivo por el camino de un transportista: unidad, permisos, costos, riesgos y crecimiento.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -27,51 +27,109 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+const chapters = [
+  { id: "cap-0", label: "El sueño" },
+  { id: "cap-1", label: "La unidad" },
+  { id: "cap-2", label: "Anatomía" },
+  { id: "cap-3", label: "La empresa" },
+  { id: "cap-4", label: "El costo real" },
+  { id: "cap-5", label: "Lo que nadie cuenta" },
+  { id: "cap-6", label: "La flota" },
+];
+
 const parts = [
   {
     id: "cabina",
     label: "Cabina",
-    text: "El puesto de mando. Cabinas dormitorio permiten viajes de largo itinerario con descanso reglamentario a bordo.",
+    text: "Aquí vive el operador. Una cabina dormitorio en buen estado retiene chóferes; una mala cabina te los ahuyenta y sin operador el trailer no factura.",
   },
   {
     id: "quinta",
     label: "Quinta rueda",
-    text: "El acoplamiento que une tracto y remolque. Soporta el peso vertical y permite el giro en curvas cerradas.",
+    text: "El punto donde tracto y caja se vuelven uno. Un mal enganche o falta de mantenimiento aquí es de los errores más caros y peligrosos del oficio.",
   },
   {
     id: "caja",
-    label: "Caja seca",
-    text: "53 pies de volumen útil. Puede ser seca, refrigerada, plataforma, tolva o tanque según la carga.",
+    label: "Caja / remolque",
+    text: "Define a qué mercado entras. Caja seca es el camino más barato de aprender; refrigerada o tanque pagan más pero exigen inversión, certificaciones y clientes distintos.",
   },
   {
     id: "ejes",
-    label: "Ejes traseros",
-    text: "Distribuyen la carga sobre el pavimento. Su configuración define el peso bruto vehicular permitido.",
+    label: "Ejes y llantas",
+    text: "El consumible que más se subestima. Llantas y frenos se comen la utilidad si no llevas control por kilómetro recorrido.",
   },
 ];
 
-const chapters = [
-  { id: "intro", label: "Inicio" },
-  { id: "anatomia", label: "Anatomía" },
-  { id: "tipos", label: "Tipos" },
-  { id: "cifras", label: "Cifras" },
-  { id: "noche", label: "Ruta" },
+const decision = [
+  {
+    n: "01",
+    t: "¿Nueva o usada?",
+    d: "Nueva: garantía, financiamiento y menos paros, pero mensualidad alta desde el día uno. Usada: entrada baja, taller frecuente. La regla del novato: la unidad más barata suele ser la más cara.",
+  },
+  {
+    n: "02",
+    t: "Revisa antes de firmar",
+    d: "Motor y transmisión, historial de servicio, kilometraje real, corrosión de chasis, papeles y verificación de que no tenga reporte de robo ni adeudos.",
+  },
+  {
+    n: "03",
+    t: "Elige el tipo por el cliente",
+    d: "Primero consigue a quién le vas a mover carga; después compra la caja que ese cliente necesita. Comprar la unidad y luego buscar flete es cómo quiebra la mayoría.",
+  },
+  {
+    n: "04",
+    t: "Reserva de arranque",
+    d: "Aparta capital de trabajo para diésel, casetas, mantenimiento y sueldos de varios meses. Los clientes pagan a crédito; tú pagas de contado.",
+  },
 ];
 
-const tipos = [
-  { n: "01", t: "Caja seca", d: "Carga general paletizada, la más común en carretera." },
-  { n: "02", t: "Refrigerada", d: "Cadena de frío entre -25 °C y 15 °C para perecederos." },
-  { n: "03", t: "Plataforma", d: "Maquinaria, acero y carga sobredimensionada." },
-  { n: "04", t: "Tanque", d: "Líquidos y gases con compartimentos y baffles." },
-  { n: "05", t: "Tolva", d: "Granos y áridos con descarga por gravedad." },
-  { n: "06", t: "Full / doble", d: "Dos remolques acoplados para máxima eficiencia." },
+const empresa = [
+  { t: "Figura fiscal", d: "Darte de alta como empresa o persona física con actividad empresarial, contabilidad y facturación en regla." },
+  { t: "Permiso de carga", d: "Autorización oficial para transporte de carga y placas de servicio federal o local, según a dónde vayas a mover." },
+  { t: "Seguros", d: "Seguro de la unidad y, sobre todo, seguro de la mercancía y responsabilidad civil. Sin esto un solo siniestro te borra." },
+  { t: "Operadores", d: "Licencia vigente del tipo correcto, exámenes médicos, contrato y capacitación. El operador es tu socio operativo." },
+  { t: "Control de gastos", d: "Bitácora por viaje: diésel, casetas, viáticos, llantas, servicios. Sin costo por kilómetro no sabes si ganas o pierdes." },
+  { t: "Cartera de clientes", d: "Contratos, cartas porte y condiciones de pago claras. Diversifica: depender de un solo cliente es una trampa." },
 ];
 
-const cifras = [
-  { k: "53", u: "pies", d: "Longitud estándar de caja" },
-  { k: "36", u: "ton", d: "Peso bruto típico articulado" },
-  { k: "80%", u: "", d: "De la carga terrestre se mueve en trailer" },
-  { k: "18", u: "ruedas", d: "Configuración clásica T3-S2" },
+const costos = [
+  { k: "Diésel", d: "El gasto número uno del viaje; el rendimiento por litro define tu margen." },
+  { k: "Casetas", d: "Rutas con peaje encarecen el viaje; hay que cotizarlas antes de aceptar el flete." },
+  { k: "Mantenimiento", d: "Preventivo programado y un fondo para la falla que sí va a llegar." },
+  { k: "Nómina", d: "Sueldo, viáticos y bonos del operador, se pague o no el flete a tiempo." },
+];
+
+const dolores = [
+  {
+    t: "Te pagan a 30, 60 o 90 días",
+    d: "Facturas y esperas; mientras tanto el diésel y la nómina no esperan. La falta de flujo mata más empresas que la falta de trabajo.",
+  },
+  {
+    t: "Tiempos muertos en carga y descarga",
+    d: "Horas o días esperando andén. El trailer parado sigue costando y casi nadie cobra esa estadía.",
+  },
+  {
+    t: "Inseguridad en carretera",
+    d: "Robo de mercancía y de unidades en tramos conocidos. Obliga a rastreo, rutas planeadas y horarios definidos.",
+  },
+  {
+    t: "Rotación de operadores",
+    d: "Conseguir y conservar buenos chóferes es más difícil que conseguir carga. Un mal operador destruye unidad, cliente y reputación.",
+  },
+  {
+    t: "El flete de regreso",
+    d: "Ir cargado y volver vacío es perder la mitad del viaje. Aprender a cerrar el círculo es lo que vuelve rentable la operación.",
+  },
+  {
+    t: "El desgaste personal",
+    d: "Llamadas a las 3 a.m., fallas en medio de la nada, presión de clientes. Nadie te cuenta lo que cuesta anímicamente el primer año.",
+  },
+];
+
+const flota = [
+  { f: "Año 1", t: "Un trailer, tú al frente", d: "Aprendes rutas, costos y clientes con las manos en la operación." },
+  { f: "Año 2-3", t: "Segunda y tercera unidad", d: "Reinviertes utilidad, formalizas procesos y contratas operadores." },
+  { f: "Año 4+", t: "Flota y estructura", d: "Taller, control de despacho, contratos anuales y márgenes previsibles." },
 ];
 
 function Index() {
@@ -108,11 +166,10 @@ function Index() {
     };
   }, []);
 
-  const scale = 0.85 + Math.sin(progress * Math.PI) * 0.3;
+  const scale = 0.8 + Math.sin(progress * Math.PI) * 0.3;
 
   return (
     <main className="relative">
-      {/* Escena 3D fija */}
       <div
         className="fixed inset-0 z-0 cursor-grab active:cursor-grabbing"
         onPointerDown={(e) =>
@@ -123,20 +180,19 @@ function Index() {
           className="absolute inset-0"
           style={{ transform: `translate(${8 + progress * 4}%, ${-progress * 60}px)` }}
         >
-          <Trailer3D rotY={rotY + progress * 220} rotX={rotX} scale={scale} active={active} />
+          <Trailer3D rotY={rotY + progress * 320} rotX={rotX} scale={scale} active={active} />
         </div>
       </div>
 
-      {/* Nav capítulos */}
       <nav className="fixed left-4 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-3 md:flex">
-        {chapters.map((c) => (
+        {chapters.map((c, i) => (
           <a
             key={c.id}
             href={`#${c.id}`}
             className="group flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-primary"
           >
             <span className="h-px w-6 bg-border transition-all group-hover:w-10 group-hover:bg-primary" />
-            {c.label}
+            <span className="text-primary/60">{String(i).padStart(2, "0")}</span> {c.label}
           </a>
         ))}
       </nav>
@@ -148,42 +204,74 @@ function Index() {
         />
       </div>
 
-      {/* Contenido */}
       <div className="relative z-20">
+        {/* CAP 0 */}
         <section
-          id="intro"
+          id="cap-0"
           className="flex min-h-screen flex-col justify-center px-6 md:px-20 lg:px-32"
         >
-          <p className="text-xs uppercase tracking-[0.4em] text-primary">
-            Autotransporte de carga
-          </p>
-          <h1 className="mt-4 max-w-4xl text-6xl font-black uppercase leading-[0.9] md:text-8xl">
-            <span className="text-gradient-amber">Trailers</span>
-            <br />
-            en movimiento
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">Capítulo 00 · El sueño</p>
+          <h1 className="mt-4 max-w-4xl text-5xl font-black uppercase leading-[0.9] md:text-8xl">
+            De <span className="text-gradient-amber">un trailer</span>
+            <br />a una flota
           </h1>
-          <p className="mt-6 max-w-lg text-base text-muted-foreground md:text-lg">
-            Una presentación inmersiva sobre las máquinas que sostienen la economía. Arrastra para
-            girar el modelo, desplázate para recorrer la historia.
+          <p className="mt-6 max-w-xl text-base text-muted-foreground md:text-lg">
+            Daniel tiene ahorros, licencia y una idea fija: vivir del transporte. Lo que todavía no
+            sabe es que comprar el trailer es la parte fácil. Esta es su historia — y el mapa que le
+            hubiera gustado tener.
           </p>
-          <div className="mt-10 flex items-center gap-3 text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+          <div className="mt-10 flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
             <span className="rounded-full border border-border bg-card/60 px-4 py-2 backdrop-blur">
-              Arrastra ⇆
+              Arrastra el modelo ⇆
             </span>
             <span className="rounded-full border border-border bg-card/60 px-4 py-2 backdrop-blur">
-              Scroll ↓
+              Baja para avanzar ↓
             </span>
           </div>
         </section>
 
+        {/* CAP 1 */}
+        <section id="cap-1" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 01 · Qué trailer comprar
+          </p>
+          <h2 className="mt-3 max-w-2xl text-4xl font-bold uppercase md:text-6xl">
+            La primera decisión que define todo
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            Daniel entra a la agencia listo para firmar. El vendedor le habla de caballos de fuerza;
+            nadie le habla de flujo de efectivo. Antes de elegir unidad, hay cuatro preguntas.
+          </p>
+          <div className="mt-12 grid gap-4 md:grid-cols-2">
+            {decision.map((d) => (
+              <article
+                key={d.n}
+                className="rounded-lg border border-border bg-card/80 p-6 backdrop-blur-md transition-transform hover:-translate-y-1"
+                style={{ boxShadow: "var(--shadow-deep)" }}
+              >
+                <span className="font-display text-4xl text-primary/50">{d.n}</span>
+                <h3 className="mt-2 text-xl font-semibold uppercase">{d.t}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{d.d}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* CAP 2 */}
         <section
-          id="anatomia"
-          className="flex min-h-screen items-center justify-end px-6 md:px-20 lg:px-32"
+          id="cap-2"
+          className="flex min-h-screen items-center justify-end px-6 py-32 md:px-20 lg:px-32"
         >
-          <div className="w-full max-w-md rounded-lg border border-border bg-card/80 p-8 backdrop-blur-md shadow-[var(--shadow-deep)]">
-            <h2 className="text-3xl font-bold uppercase">Anatomía</h2>
+          <div
+            className="w-full max-w-md rounded-lg border border-border bg-card/85 p-8 backdrop-blur-md"
+            style={{ boxShadow: "var(--shadow-deep)" }}
+          >
+            <p className="text-xs uppercase tracking-[0.4em] text-primary">
+              Capítulo 02 · Conocer la máquina
+            </p>
+            <h2 className="mt-3 text-3xl font-bold uppercase">Anatomía del negocio</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Toca una pieza para resaltarla en el modelo.
+              Cada pieza es también una línea de gasto. Toca una para verla en el modelo.
             </p>
             <div className="mt-6 space-y-2">
               {parts.map((p) => (
@@ -208,40 +296,69 @@ function Index() {
           </div>
         </section>
 
-        <section id="tipos" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
-          <h2 className="text-4xl font-bold uppercase md:text-6xl">Tipos de remolque</h2>
+        {/* CAP 3 */}
+        <section id="cap-3" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 03 · Fundar la empresa
+          </p>
+          <h2 className="mt-3 max-w-2xl text-4xl font-bold uppercase md:text-6xl">
+            Un trailer no es una empresa
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            El primer flete llega por un conocido. El cliente pide factura, seguro de mercancía y
+            documentación de la carga. Daniel descubre que sin estructura no hay negocio, solo un
+            camión.
+          </p>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {tipos.map((t) => (
+            {empresa.map((e, i) => (
               <article
-                key={t.n}
-                className="group rounded-lg border border-border bg-card/75 p-6 backdrop-blur-md transition-transform hover:-translate-y-1"
+                key={e.t}
+                className="rounded-lg border border-border bg-card/80 p-6 backdrop-blur-md"
                 style={{ boxShadow: "var(--shadow-deep)" }}
               >
-                <span className="font-display text-4xl text-primary/40 group-hover:text-primary">
-                  {t.n}
+                <span className="text-[11px] uppercase tracking-[0.3em] text-primary">
+                  Requisito {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="mt-3 text-xl font-semibold uppercase">{t.t}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{t.d}</p>
+                <h3 className="mt-2 text-lg font-semibold uppercase">{e.t}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{e.d}</p>
               </article>
             ))}
           </div>
+          <p className="mt-8 max-w-2xl text-xs text-muted-foreground">
+            Los trámites y nombres exactos cambian según el país y el estado donde operes; valida
+            cada requisito con la autoridad de transporte y con tu contador antes de arrancar.
+          </p>
         </section>
 
-        <section id="cifras" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+        {/* CAP 4 */}
+        <section id="cap-4" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
           <div className="grid items-center gap-12 lg:grid-cols-2">
             <div>
-              <h2 className="text-4xl font-bold uppercase md:text-6xl">Cifras de ruta</h2>
-              <div className="mt-10 grid grid-cols-2 gap-6">
-                {cifras.map((c) => (
-                  <div key={c.d} className="border-l-2 border-primary pl-4">
-                    <p className="font-display text-5xl leading-none text-gradient-amber">
-                      {c.k}
-                      <span className="ml-1 text-lg">{c.u}</span>
-                    </p>
-                    <p className="mt-2 text-sm text-muted-foreground">{c.d}</p>
+              <p className="text-xs uppercase tracking-[0.4em] text-primary">
+                Capítulo 04 · El costo real
+              </p>
+              <h2 className="mt-3 text-4xl font-bold uppercase md:text-6xl">
+                El flete no es la ganancia
+              </h2>
+              <p className="mt-6 text-muted-foreground">
+                Daniel cobra su primer viaje y se siente rico. Tres semanas después entiende la
+                lección central del oficio: lo que importa no es cuánto cobras, sino tu{" "}
+                <span className="text-primary">costo por kilómetro</span>. Si no lo conoces, estás
+                trabajando gratis sin saberlo.
+              </p>
+              <div className="mt-10 grid gap-6 sm:grid-cols-2">
+                {costos.map((c) => (
+                  <div key={c.k} className="border-l-2 border-primary pl-4">
+                    <p className="font-display text-2xl uppercase text-gradient-amber">{c.k}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{c.d}</p>
                   </div>
                 ))}
               </div>
+              <p className="mt-8 rounded-md border border-primary/40 bg-primary/10 p-4 text-sm">
+                Fórmula que Daniel pega en la cabina:{" "}
+                <strong>utilidad = flete − (diésel + casetas + mantenimiento + nómina + fijos)</strong>
+                . Todo lo demás es opinión.
+              </p>
             </div>
             <img
               src={cabImg}
@@ -249,19 +366,64 @@ function Index() {
               loading="lazy"
               width={1200}
               height={1200}
-              className="rounded-lg border border-border object-cover shadow-[var(--shadow-deep)]"
+              className="rounded-lg border border-border object-cover"
+              style={{ boxShadow: "var(--shadow-deep)" }}
             />
           </div>
         </section>
 
-        <section id="noche" className="relative min-h-screen px-6 py-32 md:px-20 lg:px-32">
-          <div className="grid items-center gap-10 lg:grid-cols-2">
+        {/* CAP 5 */}
+        <section id="cap-5" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-accent">
+            Capítulo 05 · Lo que nadie cuenta
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            Los problemas de los que nadie habla
+          </h2>
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {dolores.map((d) => (
+              <article
+                key={d.t}
+                className="rounded-lg border border-accent/40 bg-card/80 p-6 backdrop-blur-md"
+                style={{ boxShadow: "var(--shadow-deep)" }}
+              >
+                <h3 className="text-lg font-semibold uppercase">{d.t}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{d.d}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* CAP 6 */}
+        <section id="cap-6" className="relative min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 06 · La flota
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            El negocio empieza en la unidad dos
+          </h2>
+          <div className="mt-12 grid gap-4 md:grid-cols-3">
+            {flota.map((f) => (
+              <article
+                key={f.f}
+                className="rounded-lg border border-border bg-card/80 p-6 backdrop-blur-md"
+                style={{ boxShadow: "var(--shadow-deep)" }}
+              >
+                <span className="text-[11px] uppercase tracking-[0.3em] text-primary">{f.f}</span>
+                <h3 className="mt-2 text-xl font-semibold uppercase">{f.t}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{f.d}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-16 grid items-center gap-6 lg:grid-cols-2">
             <img
               src={heroImg}
               alt="Tractocamión con remolque circulando en carretera al atardecer"
               width={1600}
               height={912}
-              className="rounded-lg border border-border object-cover shadow-[var(--shadow-deep)]"
+              className="rounded-lg border border-border object-cover"
+              style={{ boxShadow: "var(--shadow-deep)" }}
             />
             <img
               src={fleetImg}
@@ -269,15 +431,18 @@ function Index() {
               loading="lazy"
               width={1600}
               height={912}
-              className="rounded-lg border border-border object-cover shadow-[var(--shadow-deep)]"
+              className="rounded-lg border border-border object-cover"
+              style={{ boxShadow: "var(--shadow-deep)" }}
             />
           </div>
-          <p className="mx-auto mt-20 max-w-2xl text-center text-2xl font-light md:text-4xl">
-            Mientras la ciudad duerme, <span className="text-gradient-amber">miles de trailers</span>{" "}
-            mantienen los anaqueles llenos.
+
+          <p className="mx-auto mt-20 max-w-3xl text-center text-2xl font-light md:text-4xl">
+            Cinco años después, Daniel ya no maneja: administra.{" "}
+            <span className="text-gradient-amber">La diferencia no fue el trailer</span>, fue
+            entender el negocio antes de comprarlo.
           </p>
           <footer className="mt-24 border-t border-border pt-8 text-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            Presentación 3D interactiva · Trailers
+            Historia 3D interactiva · Del primer trailer a la flota
           </footer>
         </section>
       </div>
