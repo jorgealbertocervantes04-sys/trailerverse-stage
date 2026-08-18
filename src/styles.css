@@ -156,3 +156,47 @@
     color: var(--color-foreground);
   }
 }
+
+@theme inline {
+  --color-steel-0: var(--steel-0);
+  --color-steel-1: var(--steel-1);
+  --color-steel-2: var(--steel-2);
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    background-image: var(--gradient-dusk);
+    background-attachment: fixed;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+  }
+}
+
+@utility stage-3d {
+  perspective: 1400px;
+  perspective-origin: 50% 55%;
+}
+
+@utility preserve-3d {
+  transform-style: preserve-3d;
+}
+
+@utility text-gradient-amber {
+  background: var(--gradient-amber);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility grid-floor {
+  background-image:
+    linear-gradient(to right, oklch(0.78 0.17 68 / 0.14) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.78 0.17 68 / 0.14) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
