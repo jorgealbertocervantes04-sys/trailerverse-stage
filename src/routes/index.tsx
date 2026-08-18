@@ -532,4 +532,16 @@ function Index() {
           </div>
 
           <p className="mx-auto mt-20 max-w-3xl text-center text-2xl font-light md:text-4xl">
-            Cinco años después, Daniel ya no maneja:{
+            Cinco años después, Daniel ya no maneja:{" "}
+            <span className="text-gradient-amber">dirige</span>. La diferencia no fue tener más
+            trailers, fue aprender a estar al cargo de un negocio antes de querer crecerlo.
+          </p>
+          <footer className="mt-24 border-t border-border pt-8 text-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
+            Historia 3D interactiva · Del primer trailer al mando de la flota
+          </footer>
+        </section>
+      </div>
+    </main>
+  );
+}
+
