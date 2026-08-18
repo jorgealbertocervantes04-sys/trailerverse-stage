@@ -479,16 +479,60 @@ function Index() {
               style={{ boxShadow: "var(--shadow-deep)" }}
             />
           </div>
+        </section>
+
+        {/* CAP 7 */}
+        <section id="cap-7" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 07 · El mando
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            Estar al cargo no es conducir más unidades
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            Daniel ya tiene flota. Ahora su trabajo real empieza: tomar decisiones que multipliquen
+            lo que otros hacen. Esto es lo que conlleva ser el dueño de una empresa de trailers, de
+            principio a fin.
+          </p>
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {mando.map((m) => (
+              <article
+                key={m.f}
+                className="rounded-lg border border-border bg-card/80 p-6 backdrop-blur-md"
+                style={{ boxShadow: "var(--shadow-deep)" }}
+              >
+                <span className="text-[11px] uppercase tracking-[0.3em] text-primary">{m.f}</span>
+                <h3 className="mt-2 text-lg font-semibold uppercase">{m.t}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{m.d}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-16">
+            <h3 className="text-2xl font-bold uppercase md:text-3xl">
+              De operador a director: la transformación
+            </h3>
+            <div className="mt-8 grid gap-4 md:grid-cols-5">
+              {evolucion.map((e, i) => (
+                <div
+                  key={e.etapa}
+                  className="relative rounded-lg border border-border bg-card/60 p-5 backdrop-blur-sm"
+                >
+                  <span className="font-display text-3xl text-primary/40">{String(i + 1).padStart(2, "0")}</span>
+                  <p className="mt-2 text-[11px] uppercase tracking-[0.3em] text-muted-foreground">{e.etapa}</p>
+                  <p className="mt-1 text-sm font-semibold uppercase">{e.rol}</p>
+                  <p className="mt-2 text-xs text-muted-foreground">{e.desc}</p>
+                  {i < evolucion.length - 1 && (
+                    <div className="hidden md:block absolute -right-2 top-1/2 h-px w-4 bg-border" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
 
           <p className="mx-auto mt-20 max-w-3xl text-center text-2xl font-light md:text-4xl">
-            Cinco años después, Daniel ya no maneja: administra.{" "}
-            <span className="text-gradient-amber">La diferencia no fue el trailer</span>, fue
-            entender el negocio antes de comprarlo.
-          </p>
-          <footer className="mt-24 border-t border-border pt-8 text-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            Historia 3D interactiva · Del primer trailer a la flota
-          </footer>
-        </section>
+            Cinco años después, Daniel ya no maneja:{
       </div>
     </main>
   );
