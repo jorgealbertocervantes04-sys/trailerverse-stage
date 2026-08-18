@@ -12,8 +12,9 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Presentación 3D interactiva: la historia de quien entra al autotransporte, qué trailer comprar, cómo fundar la empresa, y los problemas que nadie te cuenta.",
+          "Presentación 3D interactiva: la historia de quien entra al autotransporte, qué trailer comprar, cómo fundar la empresa, los problemas ocultos y lo que conlleva estar al mando de una flota.",
       },
+
       { property: "og:title", content: "De un trailer a una flota" },
       {
         property: "og:description",
@@ -35,7 +36,9 @@ const chapters = [
   { id: "cap-4", label: "El costo real" },
   { id: "cap-5", label: "Lo que nadie cuenta" },
   { id: "cap-6", label: "La flota" },
+  { id: "cap-7", label: "El mando" },
 ];
+
 
 const parts = [
   {
@@ -131,6 +134,48 @@ const flota = [
   { f: "Año 2-3", t: "Segunda y tercera unidad", d: "Reinviertes utilidad, formalizas procesos y contratas operadores." },
   { f: "Año 4+", t: "Flota y estructura", d: "Taller, control de despacho, contratos anuales y márgenes previsibles." },
 ];
+
+const mando = [
+  {
+    f: "Despacho",
+    t: "El corazón del día a día",
+    d: "Decidir qué unidad va a qué carga, por qué ruta, a qué hora y con qué operador. Un mal despacho deja trailers parados, clientes enojados y dinero en la mesa.",
+  },
+  {
+    f: "Clientes",
+    t: "Cobrar es parte del servicio",
+    d: "Negociar contratos, cobrar a tiempo, decir que no a fletes que no pagan lo suficiente. El dueño es el primer vendedor y el último cobrador.",
+  },
+  {
+    f: "Operadores",
+    t: "Gente, no solo licencias",
+    d: "Contratar, capacitar, escuchar, retener y, a veces, despedir. Un buen operador vale más que una unidad nueva; un mal clima laboral se nota en los siniestros.",
+  },
+  {
+    f: "Taller",
+    t: "Mantenimiento como política",
+    d: "Decidir cuándo se repara, cuándo se prefiere prevenir y cuánto gastar. El dueño que no controla el taller pierde el control de la flota.",
+  },
+  {
+    f: "Finanzas",
+    t: "Ver el dinero a 90 días",
+    d: "Flujo de caja, utilidad real, reservas para llantas, multas y temporadas muertas. La empresa quebrada suele tener facturas, no ventas.",
+  },
+  {
+    f: "Cumplimiento",
+    t: "La norma no negocia",
+    d: "Permisos vigentes, verificaciones, seguros, documentación de carga y seguridad. Un solo trámite vencido puede parar toda la operación.",
+  },
+];
+
+const evolucion = [
+  { etapa: "Día 1", rol: "Operador y dueño", desc: "Tú manejas, cargas gasolina, negocias el flete y duermes en la cabina." },
+  { etapa: "Mes 6", rol: "Coordinador", desc: "Contratas primer operador. Empiezas a despertarte por llamadas de rutas y fallas." },
+  { etapa: "Año 1", rol: "Empresario", desc: "Formalizas, facturas, controlas costos y decides si reinviertes o cobras utilidad." },
+  { etapa: "Año 3", rol: "Gerente", desc: "Tienes despachador, taller y clientes recurrentes. Tu trabajo es pensar, no conducir." },
+  { etapa: "Año 5+", rol: "Director", desc: "Estrategia, financiamiento, expansión y cultura. La empresa ya puede crecer sin ti al volante." },
+];
+
 
 function Index() {
   const [rotY, setRotY] = useState(-28);
@@ -435,17 +480,69 @@ function Index() {
               style={{ boxShadow: "var(--shadow-deep)" }}
             />
           </div>
+        </section>
+
+        {/* CAP 7 */}
+        <section id="cap-7" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 07 · El mando
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            Estar al cargo no es conducir más unidades
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            Daniel ya tiene flota. Ahora su trabajo real empieza: tomar decisiones que multipliquen
+            lo que otros hacen. Esto es lo que conlleva ser el dueño de una empresa de trailers, de
+            principio a fin.
+          </p>
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {mando.map((m) => (
+              <article
+                key={m.f}
+                className="rounded-lg border border-border bg-card/80 p-6 backdrop-blur-md"
+                style={{ boxShadow: "var(--shadow-deep)" }}
+              >
+                <span className="text-[11px] uppercase tracking-[0.3em] text-primary">{m.f}</span>
+                <h3 className="mt-2 text-lg font-semibold uppercase">{m.t}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{m.d}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-16">
+            <h3 className="text-2xl font-bold uppercase md:text-3xl">
+              De operador a director: la transformación
+            </h3>
+            <div className="mt-8 grid gap-4 md:grid-cols-5">
+              {evolucion.map((e, i) => (
+                <div
+                  key={e.etapa}
+                  className="relative rounded-lg border border-border bg-card/60 p-5 backdrop-blur-sm"
+                >
+                  <span className="font-display text-3xl text-primary/40">{String(i + 1).padStart(2, "0")}</span>
+                  <p className="mt-2 text-[11px] uppercase tracking-[0.3em] text-muted-foreground">{e.etapa}</p>
+                  <p className="mt-1 text-sm font-semibold uppercase">{e.rol}</p>
+                  <p className="mt-2 text-xs text-muted-foreground">{e.desc}</p>
+                  {i < evolucion.length - 1 && (
+                    <div className="hidden md:block absolute -right-2 top-1/2 h-px w-4 bg-border" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
 
           <p className="mx-auto mt-20 max-w-3xl text-center text-2xl font-light md:text-4xl">
-            Cinco años después, Daniel ya no maneja: administra.{" "}
-            <span className="text-gradient-amber">La diferencia no fue el trailer</span>, fue
-            entender el negocio antes de comprarlo.
+            Cinco años después, Daniel ya no maneja:{" "}
+            <span className="text-gradient-amber">dirige</span>. La diferencia no fue tener más
+            trailers, fue aprender a estar al cargo de un negocio antes de querer crecerlo.
           </p>
           <footer className="mt-24 border-t border-border pt-8 text-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            Historia 3D interactiva · Del primer trailer a la flota
+            Historia 3D interactiva · Del primer trailer al mando de la flota
           </footer>
         </section>
       </div>
     </main>
   );
 }
+
