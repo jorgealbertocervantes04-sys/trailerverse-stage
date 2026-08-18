@@ -108,7 +108,7 @@ function Index() {
     };
   }, []);
 
-  const scale = 0.55 + Math.sin(progress * Math.PI) * 0.25;
+  const scale = 0.85 + Math.sin(progress * Math.PI) * 0.3;
 
   return (
     <main className="relative">
@@ -121,7 +121,7 @@ function Index() {
       >
         <div
           className="absolute inset-0"
-          style={{ transform: `translateY(${-progress * 60}px)` }}
+          style={{ transform: `translate(${8 + progress * 4}%, ${-progress * 60}px)` }}
         >
           <Trailer3D rotY={rotY + progress * 220} rotX={rotX} scale={scale} active={active} />
         </div>
