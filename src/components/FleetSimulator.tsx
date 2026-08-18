@@ -58,11 +58,11 @@ const mxn = (n: number) =>
   n.toLocaleString("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 });
 
 export function FleetSimulator() {
-  const [sel, setSel] = useState(escenarios[1].id);
+  const [sel, setSel] = useState("micro");
   const [diesel, setDiesel] = useState(26); // MXN/litro
   const [rendimiento, setRendimiento] = useState(2.4); // km/litro
 
-  const esc = escenarios.find((e) => e.id === sel)!;
+  const esc = escenarios.find((e) => e.id === sel) ?? escenarios[0]!;
 
   const r = useMemo(() => {
     const kmAnioUnidad = esc.kmMes * 12;
