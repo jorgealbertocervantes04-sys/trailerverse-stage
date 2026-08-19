@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Trailer3D } from "@/components/Trailer3D";
+import { FleetSimulator } from "@/components/FleetSimulator";
+import { FaqNovato } from "@/components/FaqNovato";
 import heroImg from "@/assets/trailer-hero.jpg";
 import cabImg from "@/assets/trailer-cab.jpg";
 import fleetImg from "@/assets/trailer-fleet.jpg";
