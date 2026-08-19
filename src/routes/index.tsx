@@ -39,6 +39,9 @@ const chapters = [
   { id: "cap-5", label: "Lo que nadie cuenta" },
   { id: "cap-6", label: "La flota" },
   { id: "cap-7", label: "El mando" },
+  { id: "cap-8", label: "Tu flota" },
+  { id: "cap-9", label: "Preguntas" },
+
 ];
 
 
