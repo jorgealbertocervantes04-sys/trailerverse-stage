@@ -537,10 +537,43 @@ function Index() {
             <span className="text-gradient-amber">dirige</span>. La diferencia no fue tener más
             trailers, fue aprender a estar al cargo de un negocio antes de querer crecerlo.
           </p>
+        </section>
+
+        {/* CAP 8 */}
+        <section id="cap-8" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 08 · Tu flota
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            Elige tu flota y mira los números reales
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            Antes de firmar nada, haz lo que Daniel no hizo el primer año: correr el presupuesto.
+            Elige un escenario, mueve el precio del diésel y el rendimiento, y observa cómo cambian
+            la utilidad, el margen y los años que tardas en recuperar la inversión.
+          </p>
+          <FleetSimulator />
+        </section>
+
+        {/* CAP 9 */}
+        <section id="cap-9" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 09 · Preguntas frecuentes
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            Las dudas que todo novato tiene
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            Respuestas directas, sin adornos, a lo que realmente se pregunta quien está por comprar
+            su primer trailer o por formalizar su empresa.
+          </p>
+          <FaqNovato />
+
           <footer className="mt-24 border-t border-border pt-8 text-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
             Historia 3D interactiva · Del primer trailer al mando de la flota
           </footer>
         </section>
+
       </div>
     </main>
   );
