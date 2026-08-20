@@ -178,7 +178,7 @@ export function Trailer3D({ rotY, rotX, scale = 1, active }: Props) {
         {/* techo translúcido */}
         <Box w={432} h={8} d={154} x={150} y={-259} tone="boxLight" />
         {/* faldón aerodinámico */}
-        <Box w={330} h={54} d={130} x={130} y={-14} tone="boxDark" as never} />
+        <Box w={330} h={54} d={130} x={130} y={-14} tone="chassis" />
         {/* chasis del remolque */}
         <Box w={440} h={18} d={124} x={150} y={-38} tone="chassis" />
         {/* puertas traseras */}
