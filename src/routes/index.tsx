@@ -573,11 +573,182 @@ function Index() {
             su primer trailer o por formalizar su empresa.
           </p>
           <FaqNovato />
+        </section>
+
+        {/* CAP 10 */}
+        <section id="cap-10" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 10 · Riesgo y seguridad
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            Lo que puede tumbarte en un solo día
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            Toca cada tarjeta para pasar del riesgo a la forma concreta de mitigarlo. Daniel aprendió
+            esta lista de la peor manera: viviéndola.
+          </p>
+          <RiesgosInteractivos />
+        </section>
+
+        {/* CAP 11 */}
+        <section id="cap-11" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 11 · Carta porte y fisco
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            El papeleo también mueve carga
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            En el transporte, un documento mal emitido detiene una unidad igual que una llanta
+            ponchada. Esto es lo mínimo que debes dominar.
+          </p>
+          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {fiscal.map((f) => (
+              <article
+                key={f.t}
+                className="rounded-lg border border-border bg-card/80 p-6 backdrop-blur-md"
+                style={{ boxShadow: "var(--shadow-deep)" }}
+              >
+                <span className="text-[11px] uppercase tracking-[0.3em] text-primary">{f.k}</span>
+                <h3 className="mt-2 text-lg font-semibold uppercase">{f.t}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{f.d}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* CAP 12 */}
+        <section id="cap-12" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 12 · Qué unidad y a cuánto cobrar
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            Compara unidades y calcula tu tarifa mínima
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            Primero elige con qué fierro entras. Después mete tus propios números y descubre por
+            debajo de qué tarifa estás trabajando gratis.
+          </p>
+          <ComparadorUnidades />
+          <div className="mt-20">
+            <h3 className="text-2xl font-bold uppercase md:text-3xl">
+              Calculadora de tarifa mínima
+            </h3>
+            <CalculadoraTarifa />
+          </div>
+        </section>
+
+        {/* CAP 13 */}
+        <section id="cap-13" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 13 · ¿Estás listo?
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            Checklist antes de firmar la compra
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            Marca lo que ya tienes resuelto. El porcentaje te dirá si estás por invertir o por
+            apostar.
+          </p>
+          <ChecklistArranque />
+        </section>
+
+        {/* CAP 14 */}
+        <section id="cap-14" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 14 · Glosario del oficio
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            Habla como transportista
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            En una negociación, no entender una palabra te cuesta dinero. Busca cualquier término.
+          </p>
+          <Glosario />
+        </section>
+
+        {/* CAP 15 */}
+        <section id="cap-15" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 15 · Errores que quiebran
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            Cuatro formas de perderlo todo
+          </h2>
+          <div className="mt-12 grid gap-4 md:grid-cols-2">
+            {casos.map((c) => (
+              <article
+                key={c.t}
+                className="rounded-lg border border-border bg-card/70 p-6 backdrop-blur-md"
+              >
+                <span className="text-[11px] uppercase tracking-[0.3em] text-accent">{c.t}</span>
+                <p className="mt-3 text-sm text-muted-foreground">{c.d}</p>
+                <p className="mt-4 border-t border-border/60 pt-3 text-sm">
+                  <span className="text-primary">Lección: </span>
+                  {c.l}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* CAP 16 */}
+        <section id="cap-16" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 16 · Examen final
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            ¿Ya piensas como dueño?
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            Cinco decisiones reales. Responde y descubre si el curso ya te cambió la cabeza.
+          </p>
+          <QuizFinal />
+        </section>
+
+        {/* CAP 17 */}
+        <section id="cap-17" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
+          <p className="text-xs uppercase tracking-[0.4em] text-primary">
+            Capítulo 17 · Tus primeros 90 días
+          </p>
+          <h2 className="mt-3 max-w-3xl text-4xl font-bold uppercase md:text-6xl">
+            Armemos la empresa
+          </h2>
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            El plan concreto para pasar de leer a operar. Un bloque de 30 días a la vez.
+          </p>
+          <div className="mt-12 grid gap-4 md:grid-cols-3">
+            {plan90.map((p, i) => (
+              <div
+                key={p.t}
+                className="rounded-lg border border-border bg-card/70 p-6 backdrop-blur-md"
+                style={{ boxShadow: "var(--shadow-deep)" }}
+              >
+                <span className="font-display text-4xl text-primary/40">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-2 text-lg font-semibold uppercase">{p.t}</h3>
+                <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                  {p.pasos.map((s) => (
+                    <li key={s} className="border-b border-border/50 pb-2">
+                      {s}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <p className="mx-auto mt-20 max-w-3xl text-center text-2xl font-light md:text-4xl">
+            El trailer no hace la empresa.{" "}
+            <span className="text-gradient-amber">La disciplina de números sí.</span>
+          </p>
 
           <footer className="mt-24 border-t border-border pt-8 text-center text-xs uppercase tracking-[0.3em] text-muted-foreground">
             Historia 3D interactiva · Del primer trailer al mando de la flota
           </footer>
         </section>
+
 
       </div>
     </main>

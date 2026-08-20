@@ -200,3 +200,25 @@
     linear-gradient(to bottom, oklch(0.78 0.17 68 / 0.14) 1px, transparent 1px);
   background-size: 80px 80px;
 }
+
+@utility panel-ribs {
+  background-image: repeating-linear-gradient(
+    90deg,
+    oklch(0 0 0 / 0.18) 0px,
+    oklch(0 0 0 / 0.18) 2px,
+    transparent 2px,
+    transparent 22px
+  );
+}
+
+@utility grille {
+  background-image: repeating-linear-gradient(
+    180deg,
+    oklch(0.72 0.02 70) 0px,
+    oklch(0.72 0.02 70) 3px,
+    oklch(0.24 0.01 60) 3px,
+    oklch(0.24 0.01 60) 8px
+  );
+  border: 1px solid var(--border);
+}
+
