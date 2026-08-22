@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Trailer3D } from "@/components/Trailer3D";
+import { RutaEstaciones } from "@/components/RutaEstaciones";
 import { FleetSimulator } from "@/components/FleetSimulator";
 import { FaqNovato } from "@/components/FaqNovato";
 import { RiesgosInteractivos } from "@/components/RiesgosInteractivos";
