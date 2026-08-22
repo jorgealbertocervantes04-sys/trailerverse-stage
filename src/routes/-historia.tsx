@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Trailer3D } from "@/components/Trailer3D";
+import { RutaEstaciones } from "@/components/RutaEstaciones";
 import { FleetSimulator } from "@/components/FleetSimulator";
 import { FaqNovato } from "@/components/FaqNovato";
 import { RiesgosInteractivos } from "@/components/RiesgosInteractivos";
@@ -263,6 +264,7 @@ export function HistoriaPage() {
   const [rotX, setRotX] = useState(12);
   const [active, setActive] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [activo, setActivo] = useState(0);
   const dragging = useRef<{ x: number; y: number; ry: number; rx: number } | null>(null);
 
   useEffect(() => {
@@ -273,6 +275,30 @@ export function HistoriaPage() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const nodes = chapters
+      .map((c) => document.getElementById(c.id))
+      .filter((n): n is HTMLElement => !!n);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const en of entries) {
+          if (en.isIntersecting) {
+            en.target.classList.add("estacion-visible");
+            const i = chapters.findIndex((c) => c.id === en.target.id);
+            if (i >= 0 && en.intersectionRatio > 0.25) setActivo(i);
+          }
+        }
+      },
+      { threshold: [0.05, 0.3, 0.6], rootMargin: "-10% 0px -35% 0px" },
+    );
+    nodes.forEach((n) => {
+      n.classList.add("estacion");
+      io.observe(n);
+    });
+    return () => io.disconnect();
   }, []);
 
   useEffect(() => {
@@ -310,40 +336,7 @@ export function HistoriaPage() {
         </div>
       </div>
 
-      <nav className="fixed left-4 top-1/2 z-30 hidden max-h-[80vh] -translate-y-1/2 flex-col gap-2.5 overflow-y-auto pr-2 md:flex">
-        {chapters.map((c, i) => (
-          <a
-            key={c.id}
-            href={`#${c.id}`}
-            className="group flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-primary"
-          >
-            <span className="h-px w-6 bg-border transition-all group-hover:w-10 group-hover:bg-primary" />
-            <span className="text-primary/60">{String(i).padStart(2, "0")}</span> {c.label}
-          </a>
-        ))}
-      </nav>
-
-      <nav className="fixed bottom-0 left-0 z-30 w-full border-t border-border bg-background/85 backdrop-blur-md md:hidden">
-        <div className="flex gap-2 overflow-x-auto px-4 py-3">
-          {chapters.map((c, i) => (
-            <a
-              key={c.id}
-              href={`#${c.id}`}
-              className="shrink-0 rounded-full border border-border px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] text-muted-foreground"
-            >
-              <span className="text-primary/70">{String(i).padStart(2, "0")}</span> {c.label}
-            </a>
-          ))}
-        </div>
-      </nav>
-
-
-      <div className="fixed left-0 top-0 z-40 h-0.5 w-full bg-border/40">
-        <div
-          className="h-full"
-          style={{ width: `${progress * 100}%`, background: "var(--gradient-amber)" }}
-        />
-      </div>
+      <RutaEstaciones estaciones={chapters} activo={activo} progress={progress} />
 
       <div className="relative z-20">
         {/* CAP 0 */}
