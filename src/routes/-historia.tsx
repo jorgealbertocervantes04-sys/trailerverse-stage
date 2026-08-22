@@ -263,6 +263,7 @@ export function HistoriaPage() {
   const [rotX, setRotX] = useState(12);
   const [active, setActive] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [activo, setActivo] = useState(0);
   const dragging = useRef<{ x: number; y: number; ry: number; rx: number } | null>(null);
 
   useEffect(() => {
@@ -273,6 +274,30 @@ export function HistoriaPage() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const nodes = chapters
+      .map((c) => document.getElementById(c.id))
+      .filter((n): n is HTMLElement => !!n);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const en of entries) {
+          if (en.isIntersecting) {
+            en.target.classList.add("estacion-visible");
+            const i = chapters.findIndex((c) => c.id === en.target.id);
+            if (i >= 0 && en.intersectionRatio > 0.25) setActivo(i);
+          }
+        }
+      },
+      { threshold: [0.05, 0.3, 0.6], rootMargin: "-10% 0px -35% 0px" },
+    );
+    nodes.forEach((n) => {
+      n.classList.add("estacion");
+      io.observe(n);
+    });
+    return () => io.disconnect();
   }, []);
 
   useEffect(() => {
