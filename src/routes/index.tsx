@@ -41,8 +41,102 @@ const chapters = [
   { id: "cap-7", label: "El mando" },
   { id: "cap-8", label: "Tu flota" },
   { id: "cap-9", label: "Preguntas" },
-
+  { id: "cap-10", label: "Riesgo" },
+  { id: "cap-11", label: "Carta porte" },
+  { id: "cap-12", label: "Unidad y tarifa" },
+  { id: "cap-13", label: "Checklist" },
+  { id: "cap-14", label: "Glosario" },
+  { id: "cap-15", label: "Errores" },
+  { id: "cap-16", label: "Examen" },
+  { id: "cap-17", label: "90 días" },
 ];
+
+const fiscal = [
+  {
+    k: "Obligatorio",
+    t: "Complemento carta porte",
+    d: "Ampara la mercancía en tránsito: origen, destino, mercancía, unidad y operador. Sin él o mal emitido, hay multa y la carga puede quedar detenida.",
+  },
+  {
+    k: "Obligatorio",
+    t: "CFDI de ingreso por flete",
+    d: "Cada servicio se factura. Si operas con clientes formales, tu capacidad de facturar correctamente es requisito para que te contraten.",
+  },
+  {
+    k: "Régimen",
+    t: "Persona física vs. moral",
+    d: "Física con actividad empresarial es más simple al inicio; moral da imagen, separa patrimonio y abre licitaciones y clientes grandes.",
+  },
+  {
+    k: "Deducciones",
+    t: "Lo que sí puedes deducir",
+    d: "Diésel con comprobante fiscal, casetas con factura IAVE, refacciones, seguros, sueldos, depreciación de la unidad y financiamiento.",
+  },
+  {
+    k: "Control",
+    t: "Contabilidad semanal, no anual",
+    d: "El transporte gasta diario y cobra a 60 días. Sin registro semanal por unidad, no sabes cuál gana y cuál te está comiendo.",
+  },
+  {
+    k: "Vencimientos",
+    t: "Calendario de documentos",
+    d: "Permiso SICT, placas, verificación físico-mecánica, pólizas y licencia federal. Un vencido detiene la unidad aunque todo lo demás esté perfecto.",
+  },
+];
+
+const casos = [
+  {
+    t: "Compró primero, buscó carga después",
+    d: "Enganchó una unidad nueva confiando en promesas verbales de un cliente. La carga nunca se formalizó y la mensualidad sí llegó cada mes.",
+    l: "Primero asegura carga, luego compra fierro.",
+  },
+  {
+    t: "Confundió facturación con utilidad",
+    d: "Facturaba fuerte y se sentía rico, pero nunca separó el costo por unidad. Dos de sus tres camiones perdían dinero cada viaje.",
+    l: "Mide utilidad por unidad y por ruta, no el total.",
+  },
+  {
+    t: "Concentró todo en un solo cliente",
+    d: "El 80% de sus viajes venían de una sola empresa. Cuando cambiaron de proveedor, su flota quedó parada en dos semanas.",
+    l: "Ningún cliente debe pasar del 30% de tu facturación.",
+  },
+  {
+    t: "Ahorró en mantenimiento",
+    d: "Estiró servicios y llantas para 'aguantar el mes'. Terminó pagando una reparación mayor y perdiendo al cliente por entregas tarde.",
+    l: "El mantenimiento preventivo siempre es más barato que el correctivo.",
+  },
+];
+
+const plan90 = [
+  {
+    t: "Días 1–30 · Fundamentos",
+    pasos: [
+      "Definir régimen fiscal y darte de alta",
+      "Cotizar y arrancar trámite de permiso SICT",
+      "Calcular tu costo por km con datos reales",
+      "Hablar con 10 transportistas y 5 brokers",
+    ],
+  },
+  {
+    t: "Días 31–60 · La unidad",
+    pasos: [
+      "Elegir configuración según la carga objetivo",
+      "Revisión mecánica independiente antes de pagar",
+      "Contratar seguro de RC y de carga",
+      "Abrir cuenta bancaria exclusiva de la empresa",
+    ],
+  },
+  {
+    t: "Días 61–90 · Operación",
+    pasos: [
+      "Cerrar tu primer cliente o contrato con broker",
+      "Montar control semanal de ingresos y gastos por unidad",
+      "Definir política de mantenimiento y de cobranza",
+      "Fondear la reserva para reparación mayor",
+    ],
+  },
+];
+
 
 
 const parts = [
