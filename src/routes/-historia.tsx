@@ -9,9 +9,130 @@ import { CalculadoraTarifa } from "@/components/CalculadoraTarifa";
 import { ChecklistArranque } from "@/components/ChecklistArranque";
 import { Glosario } from "@/components/Glosario";
 import { QuizFinal } from "@/components/QuizFinal";
+import { DecisionEstacion, RamaCapitulo, type Opcion } from "@/components/DecisionEstacion";
+import { ModoInmersivo } from "@/components/ModoInmersivo";
+import { ReanudarViaje } from "@/components/ReanudarViaje";
+import { useProgresoGuardado, guardarProgreso, type Ruta } from "@/lib/progreso";
 import heroImg from "@/assets/trailer-hero.jpg";
 import cabImg from "@/assets/trailer-cab.jpg";
 import fleetImg from "@/assets/trailer-fleet.jpg";
+
+type Rama = { titulo: string; descripcion: string; puntos: { t: string; d: string }[] };
+
+const opcionesCarga: Opcion[] = [
+  {
+    id: "seca",
+    label: "Caja seca",
+    resumen: "Entrada más barata, más competencia y tarifas apretadas. La escuela del oficio.",
+    desvio: "Ruta A",
+  },
+  {
+    id: "refrigerada",
+    label: "Refrigerada",
+    resumen: "Tarifas altas y clientes exigentes. El equipo de frío es otro motor que mantener.",
+    desvio: "Ruta B",
+  },
+  {
+    id: "materiales",
+    label: "Granel / materiales",
+    resumen: "Viajes cortos y locales, pago rápido, desgaste brutal de suspensión y llantas.",
+    desvio: "Ruta C",
+  },
+];
+
+const ramasCarga: Record<string, Rama> = {
+  seca: {
+    titulo: "Tu historia: aprender con caja seca",
+    descripcion:
+      "Entras al mercado más grande y más peleado. Aquí ganas experiencia barata, pero tu utilidad depende de no dejar viajes vacíos.",
+    puntos: [
+      { t: "Inversión", d: "Caja usada de 53' desde una fracción del costo de una refrigerada." },
+      { t: "Clientes", d: "Brokers, paquetería, retail y manufactura ligera. Alta rotación." },
+      { t: "Riesgo", d: "Tarifa baja: sin control de costo por km, trabajas para el diésel." },
+      { t: "Meta", d: "Cerrar carga de retorno en al menos 7 de cada 10 viajes." },
+    ],
+  },
+  refrigerada: {
+    titulo: "Tu historia: la cadena de frío",
+    descripcion:
+      "Cobras más por viaje, pero el cliente te mide en grados y minutos. Una falla del termo puede costarte la carga completa.",
+    puntos: [
+      { t: "Inversión", d: "Termo, mantenimiento del equipo de frío y diésel extra del generador." },
+      { t: "Clientes", d: "Agroindustria, farmacéutica y alimentos. Contratos más largos." },
+      { t: "Riesgo", d: "Rechazo de carga por temperatura: necesitas seguro de mercancía sólido." },
+      { t: "Meta", d: "Registro de temperatura y mantenimiento del termo cada 500 horas." },
+    ],
+  },
+  materiales: {
+    titulo: "Tu historia: granel y materiales",
+    descripcion:
+      "Rutas cortas, cobros rápidos y menos papeleo comercial, a cambio de un desgaste mecánico que no perdona.",
+    puntos: [
+      { t: "Inversión", d: "Góndola o tolva; el tracto sufre más por peso y caminos malos." },
+      { t: "Clientes", d: "Constructoras, mineras y obra pública. Pagos por volumen." },
+      { t: "Riesgo", d: "Sobrepeso y multas; temporada baja cuando se frena la obra." },
+      { t: "Meta", d: "Reservar más presupuesto de suspensión, llantas y frenos por km." },
+    ],
+  },
+};
+
+const opcionesCrecimiento: Opcion[] = [
+  {
+    id: "propia",
+    label: "Con utilidad propia",
+    resumen: "Creces lento, sin deuda y con control total de las decisiones.",
+    desvio: "Ruta D",
+  },
+  {
+    id: "credito",
+    label: "A crédito",
+    resumen: "Creces rápido, pero cada unidad llega con una mensualidad fija.",
+    desvio: "Ruta E",
+  },
+  {
+    id: "socios",
+    label: "Con socios u operadores dueños",
+    resumen: "Sumas unidades sin invertir fierro, a cambio de margen y control.",
+    desvio: "Ruta F",
+  },
+];
+
+const ramasCrecimiento: Record<string, Rama> = {
+  propia: {
+    titulo: "Tu historia: crecer con caja propia",
+    descripcion:
+      "Cada unidad nueva sale de la utilidad acumulada. Nadie te presiona con un pago mensual, pero el reloj corre más lento.",
+    puntos: [
+      { t: "Ritmo", d: "Una unidad cada 18–30 meses si mantienes márgenes sanos." },
+      { t: "Ventaja", d: "Aguantas temporadas bajas sin riesgo de perder unidades." },
+      { t: "Cuidado", d: "No confundas la caja de la empresa con tu gasto personal." },
+      { t: "Indicador", d: "Fondo de reserva equivalente a 3 meses de operación." },
+    ],
+  },
+  credito: {
+    titulo: "Tu historia: crecer a crédito",
+    descripcion:
+      "El banco te presta escala. Funciona sólo si tienes carga contratada antes de firmar y control estricto de cobranza.",
+    puntos: [
+      { t: "Ritmo", d: "Puedes duplicar la flota en un año si el flujo aguanta." },
+      { t: "Ventaja", d: "Unidades nuevas: garantía, menos paros y mejor imagen ante clientes." },
+      { t: "Cuidado", d: "La mensualidad llega aunque el cliente pague a 90 días." },
+      { t: "Indicador", d: "La deuda mensual no debe pasar del 30% de tu ingreso operativo." },
+    ],
+  },
+  socios: {
+    titulo: "Tu historia: crecer con terceros",
+    descripcion:
+      "Sumas unidades de operadores dueños o socios. Creces sin invertir, pero tu negocio pasa a ser administración y clientes.",
+    puntos: [
+      { t: "Ritmo", d: "Escala inmediata: dependes de conseguir carga, no fierro." },
+      { t: "Ventaja", d: "Menor inversión y riesgo mecánico compartido." },
+      { t: "Cuidado", d: "Margen menor y menos control de calidad de servicio." },
+      { t: "Indicador", d: "Contrato claro de tarifas, seguros y responsabilidades por viaje." },
+    ],
+  },
+};
+
 
 const chapters = [
   { id: "cap-0", label: "El sueño" },
@@ -265,7 +386,33 @@ export function HistoriaPage() {
   const [active, setActive] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const [activo, setActivo] = useState(0);
+  const [ruta, setRuta] = useState<Ruta>({ carga: null, crecimiento: null });
+  const [mostrarReanudar, setMostrarReanudar] = useState(false);
+  const { guardado, listo, limpiar } = useProgresoGuardado();
   const dragging = useRef<{ x: number; y: number; ry: number; rx: number } | null>(null);
+
+  // recuperar el viaje guardado
+  useEffect(() => {
+    if (!listo || !guardado) return;
+    setRuta(guardado.ruta);
+    if (guardado.estacion > 0) setMostrarReanudar(true);
+  }, [listo, guardado]);
+
+  // guardar avance
+  useEffect(() => {
+    if (!listo) return;
+    const t = setTimeout(() => {
+      guardarProgreso({
+        estacion: activo,
+        estacionId: chapters[activo]?.id ?? null,
+        km: Math.round(progress * 2400),
+        ruta,
+        actualizado: Date.now(),
+      });
+    }, 400);
+    return () => clearTimeout(t);
+  }, [listo, activo, progress, ruta]);
+
 
   useEffect(() => {
     const onScroll = () => {
@@ -338,6 +485,34 @@ export function HistoriaPage() {
 
       <RutaEstaciones estaciones={chapters} activo={activo} progress={progress} />
 
+      <ModoInmersivo
+        estacion={activo}
+        total={chapters.length}
+        etiqueta={chapters[activo]?.label ?? ""}
+        km={Math.round(progress * 2400)}
+        ruta={[ruta.carga, ruta.crecimiento].filter((v): v is string => !!v)}
+      />
+
+      {mostrarReanudar && guardado && (
+        <ReanudarViaje
+          etiqueta={chapters[guardado.estacion]?.label ?? ""}
+          estacion={guardado.estacion}
+          km={guardado.km}
+          onReanudar={() => {
+            const id = chapters[guardado.estacion]?.id;
+            if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+            setMostrarReanudar(false);
+          }}
+          onReiniciar={() => {
+            limpiar();
+            setRuta({ carga: null, crecimiento: null });
+            setMostrarReanudar(false);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
+      )}
+
+
       <div className="relative z-20">
         {/* CAP 0 */}
         <section
@@ -350,7 +525,7 @@ export function HistoriaPage() {
             <br />a una flota
           </h1>
           <p className="mt-6 max-w-xl text-base text-muted-foreground md:text-lg">
-            Daniel tiene ahorros, licencia y una idea fija: vivir del transporte. Lo que todavía no
+            Pablo tiene ahorros, licencia y una idea fija: vivir del transporte. Lo que todavía no
             sabe es que comprar el trailer es la parte fácil. Esta es su historia — y el mapa que le
             hubiera gustado tener.
           </p>
@@ -373,7 +548,7 @@ export function HistoriaPage() {
             La primera decisión que define todo
           </h2>
           <p className="mt-6 max-w-2xl text-muted-foreground">
-            Daniel entra a la agencia listo para firmar. El vendedor le habla de caballos de fuerza;
+            Pablo entra a la agencia listo para firmar. El vendedor le habla de caballos de fuerza;
             nadie le habla de flujo de efectivo. Antes de elegir unidad, hay cuatro preguntas.
           </p>
           <div className="mt-12 grid gap-4 md:grid-cols-2">
@@ -389,7 +564,17 @@ export function HistoriaPage() {
               </article>
             ))}
           </div>
+
+          <DecisionEstacion
+            pregunta="¿Con qué carga entras al oficio?"
+            intro="Esta decisión ramifica tu historia: el resto del recorrido se ajusta a la carga que elijas."
+            opciones={opcionesCarga}
+            valor={ruta.carga}
+            onElegir={(id) => setRuta((r) => ({ ...r, carga: id }))}
+          />
+          {ruta.carga && ramasCarga[ruta.carga] && <RamaCapitulo {...ramasCarga[ruta.carga]!} />}
         </section>
+
 
         {/* CAP 2 */}
         <section
@@ -440,7 +625,7 @@ export function HistoriaPage() {
           </h2>
           <p className="mt-6 max-w-2xl text-muted-foreground">
             El primer flete llega por un conocido. El cliente pide factura, seguro de mercancía y
-            documentación de la carga. Daniel descubre que sin estructura no hay negocio, solo un
+            documentación de la carga. Pablo descubre que sin estructura no hay negocio, solo un
             camión.
           </p>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -475,7 +660,7 @@ export function HistoriaPage() {
                 El flete no es la ganancia
               </h2>
               <p className="mt-6 text-muted-foreground">
-                Daniel cobra su primer viaje y se siente rico. Tres semanas después entiende la
+                Pablo cobra su primer viaje y se siente rico. Tres semanas después entiende la
                 lección central del oficio: lo que importa no es cuánto cobras, sino tu{" "}
                 <span className="text-primary">costo por kilómetro</span>. Si no lo conoces, estás
                 trabajando gratis sin saberlo.
@@ -489,7 +674,7 @@ export function HistoriaPage() {
                 ))}
               </div>
               <p className="mt-8 rounded-md border border-primary/40 bg-primary/10 p-4 text-sm">
-                Fórmula que Daniel pega en la cabina:{" "}
+                Fórmula que Pablo pega en la cabina:{" "}
                 <strong>utilidad = flete − (diésel + casetas + mantenimiento + nómina + fijos)</strong>
                 . Todo lo demás es opinión.
               </p>
@@ -569,7 +754,19 @@ export function HistoriaPage() {
               style={{ boxShadow: "var(--shadow-deep)" }}
             />
           </div>
+
+          <DecisionEstacion
+            pregunta="¿Cómo vas a crecer a la unidad dos?"
+            intro="Aquí la historia se parte otra vez. Cada forma de crecer cambia tu riesgo, tu ritmo y quién manda en tu empresa."
+            opciones={opcionesCrecimiento}
+            valor={ruta.crecimiento}
+            onElegir={(id) => setRuta((r) => ({ ...r, crecimiento: id }))}
+          />
+          {ruta.crecimiento && ramasCrecimiento[ruta.crecimiento] && (
+            <RamaCapitulo {...ramasCrecimiento[ruta.crecimiento]!} />
+          )}
         </section>
+
 
         {/* CAP 7 */}
         <section id="cap-7" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
@@ -580,7 +777,7 @@ export function HistoriaPage() {
             Estar al cargo no es conducir más unidades
           </h2>
           <p className="mt-6 max-w-2xl text-muted-foreground">
-            Daniel ya tiene flota. Ahora su trabajo real empieza: tomar decisiones que multipliquen
+            Pablo ya tiene flota. Ahora su trabajo real empieza: tomar decisiones que multipliquen
             lo que otros hacen. Esto es lo que conlleva ser el dueño de una empresa de trailers, de
             principio a fin.
           </p>
@@ -622,7 +819,7 @@ export function HistoriaPage() {
           </div>
 
           <p className="mx-auto mt-20 max-w-3xl text-center text-2xl font-light md:text-4xl">
-            Cinco años después, Daniel ya no maneja:{" "}
+            Cinco años después, Pablo ya no maneja:{" "}
             <span className="text-gradient-amber">dirige</span>. La diferencia no fue tener más
             trailers, fue aprender a estar al cargo de un negocio antes de querer crecerlo.
           </p>
@@ -637,7 +834,7 @@ export function HistoriaPage() {
             Elige tu flota y mira los números reales
           </h2>
           <p className="mt-6 max-w-2xl text-muted-foreground">
-            Antes de firmar nada, haz lo que Daniel no hizo el primer año: correr el presupuesto.
+            Antes de firmar nada, haz lo que Pablo no hizo el primer año: correr el presupuesto.
             Elige un escenario, mueve el precio del diésel y el rendimiento, y observa cómo cambian
             la utilidad, el margen y los años que tardas en recuperar la inversión.
           </p>
@@ -668,7 +865,7 @@ export function HistoriaPage() {
             Lo que puede tumbarte en un solo día
           </h2>
           <p className="mt-6 max-w-2xl text-muted-foreground">
-            Toca cada tarjeta para pasar del riesgo a la forma concreta de mitigarlo. Daniel aprendió
+            Toca cada tarjeta para pasar del riesgo a la forma concreta de mitigarlo. Pablo aprendió
             esta lista de la peor manera: viviéndola.
           </p>
           <RiesgosInteractivos />
