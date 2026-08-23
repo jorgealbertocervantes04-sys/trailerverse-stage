@@ -230,6 +230,63 @@ export function Trailer3D({ rotY, rotX, scale = 1, active }: Props) {
         {/* chasis tractor */}
         <Box w={230} h={16} d={100} x={-250} y={-30} tone="chassis" />
 
+        {/* visera sobre parabrisas */}
+        <Box w={70} h={8} d={150} x={-330} y={-278} tone="cabDark" glow={cabOn} />
+        {/* espejos retrovisores */}
+        {[80, -80].map((zz) => (
+          <div key={`esp-${zz}`} className="preserve-3d">
+            <Box w={6} h={54} d={6} x={-318} y={-196} z={zz} tone="chrome" />
+            <Box w={8} h={40} d={20} x={-318} y={-228} z={zz + (zz > 0 ? 12 : -12)} tone="chrome" />
+          </div>
+        ))}
+        {/* guardafangos delanteros */}
+        {[78, -78].map((zz) => (
+          <Box key={`gf-${zz}`} w={96} h={12} d={34} x={-350} y={-24} z={zz} tone="cabDark" />
+        ))}
+        {/* faldón lateral del tractor */}
+        {[70, -70].map((zz) => (
+          <Box key={`fl-${zz}`} w={70} h={40} d={8} x={-155} y={-12} z={zz} tone="chassis" />
+        ))}
+        {/* loderas */}
+        {[74, -74].map((zz) => (
+          <Box key={`lod-${zz}`} w={4} h={46} d={40} x={352} y={38} z={zz} tone="chassis" />
+        ))}
+        {/* placa trasera */}
+        <div
+          className="absolute left-1/2 top-1/2 rounded-[2px] border border-border"
+          style={{
+            width: 34,
+            height: 16,
+            background: "oklch(0.82 0.02 90)",
+            transform: "translate3d(374px, -22px, 0px) rotateY(90deg)",
+          }}
+        />
+        {/* franja de color en la caja */}
+        <div
+          className="absolute left-1/2 top-1/2"
+          style={{
+            width: 430,
+            height: 16,
+            transform: "translate3d(-65px, -196px, 77px)",
+            background: "var(--gradient-amber)",
+            opacity: 0.85,
+          }}
+        />
+        {/* mangueras de aire */}
+        {[10, -10].map((zz) => (
+          <div
+            key={`mg-${zz}`}
+            className="absolute left-1/2 top-1/2 rounded-full"
+            style={{
+              width: 46,
+              height: 5,
+              background: "oklch(0.4 0.02 60)",
+              transform: `translate3d(-140px, -78px, ${zz}px) rotateZ(-12deg)`,
+            }}
+          />
+        ))}
+
+
         {/* ---------- RUEDAS ---------- */}
         {[
           { x: -350, z: 76 },
