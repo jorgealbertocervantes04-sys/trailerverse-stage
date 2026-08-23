@@ -389,7 +389,17 @@ export function HistoriaPage() {
               </article>
             ))}
           </div>
+
+          <DecisionEstacion
+            pregunta="¿Con qué carga entras al oficio?"
+            intro="Esta decisión ramifica tu historia: el resto del recorrido se ajusta a la carga que elijas."
+            opciones={opcionesCarga}
+            valor={ruta.carga}
+            onElegir={(id) => setRuta((r) => ({ ...r, carga: id }))}
+          />
+          {ruta.carga && ramasCarga[ruta.carga] && <RamaCapitulo {...ramasCarga[ruta.carga]!} />}
         </section>
+
 
         {/* CAP 2 */}
         <section
