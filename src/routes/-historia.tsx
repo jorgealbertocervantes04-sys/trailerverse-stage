@@ -265,7 +265,33 @@ export function HistoriaPage() {
   const [active, setActive] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const [activo, setActivo] = useState(0);
+  const [ruta, setRuta] = useState<Ruta>({ carga: null, crecimiento: null });
+  const [mostrarReanudar, setMostrarReanudar] = useState(false);
+  const { guardado, listo, limpiar } = useProgresoGuardado();
   const dragging = useRef<{ x: number; y: number; ry: number; rx: number } | null>(null);
+
+  // recuperar el viaje guardado
+  useEffect(() => {
+    if (!listo || !guardado) return;
+    setRuta(guardado.ruta);
+    if (guardado.estacion > 0) setMostrarReanudar(true);
+  }, [listo, guardado]);
+
+  // guardar avance
+  useEffect(() => {
+    if (!listo) return;
+    const t = setTimeout(() => {
+      guardarProgreso({
+        estacion: activo,
+        estacionId: chapters[activo]?.id ?? null,
+        km: Math.round(progress * 2400),
+        ruta,
+        actualizado: Date.now(),
+      });
+    }, 400);
+    return () => clearTimeout(t);
+  }, [listo, activo, progress, ruta]);
+
 
   useEffect(() => {
     const onScroll = () => {
