@@ -569,7 +569,19 @@ export function HistoriaPage() {
               style={{ boxShadow: "var(--shadow-deep)" }}
             />
           </div>
+
+          <DecisionEstacion
+            pregunta="¿Cómo vas a crecer a la unidad dos?"
+            intro="Aquí la historia se parte otra vez. Cada forma de crecer cambia tu riesgo, tu ritmo y quién manda en tu empresa."
+            opciones={opcionesCrecimiento}
+            valor={ruta.crecimiento}
+            onElegir={(id) => setRuta((r) => ({ ...r, crecimiento: id }))}
+          />
+          {ruta.crecimiento && ramasCrecimiento[ruta.crecimiento] && (
+            <RamaCapitulo {...ramasCrecimiento[ruta.crecimiento]!} />
+          )}
         </section>
+
 
         {/* CAP 7 */}
         <section id="cap-7" className="min-h-screen px-6 py-32 md:px-20 lg:px-32">
