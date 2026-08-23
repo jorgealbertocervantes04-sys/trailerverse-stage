@@ -525,7 +525,7 @@ export function HistoriaPage() {
             <br />a una flota
           </h1>
           <p className="mt-6 max-w-xl text-base text-muted-foreground md:text-lg">
-            Daniel tiene ahorros, licencia y una idea fija: vivir del transporte. Lo que todavía no
+            Pablo tiene ahorros, licencia y una idea fija: vivir del transporte. Lo que todavía no
             sabe es que comprar el trailer es la parte fácil. Esta es su historia — y el mapa que le
             hubiera gustado tener.
           </p>
@@ -548,7 +548,7 @@ export function HistoriaPage() {
             La primera decisión que define todo
           </h2>
           <p className="mt-6 max-w-2xl text-muted-foreground">
-            Daniel entra a la agencia listo para firmar. El vendedor le habla de caballos de fuerza;
+            Pablo entra a la agencia listo para firmar. El vendedor le habla de caballos de fuerza;
             nadie le habla de flujo de efectivo. Antes de elegir unidad, hay cuatro preguntas.
           </p>
           <div className="mt-12 grid gap-4 md:grid-cols-2">
@@ -625,7 +625,7 @@ export function HistoriaPage() {
           </h2>
           <p className="mt-6 max-w-2xl text-muted-foreground">
             El primer flete llega por un conocido. El cliente pide factura, seguro de mercancía y
-            documentación de la carga. Daniel descubre que sin estructura no hay negocio, solo un
+            documentación de la carga. Pablo descubre que sin estructura no hay negocio, solo un
             camión.
           </p>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -660,7 +660,7 @@ export function HistoriaPage() {
                 El flete no es la ganancia
               </h2>
               <p className="mt-6 text-muted-foreground">
-                Daniel cobra su primer viaje y se siente rico. Tres semanas después entiende la
+                Pablo cobra su primer viaje y se siente rico. Tres semanas después entiende la
                 lección central del oficio: lo que importa no es cuánto cobras, sino tu{" "}
                 <span className="text-primary">costo por kilómetro</span>. Si no lo conoces, estás
                 trabajando gratis sin saberlo.
@@ -674,7 +674,7 @@ export function HistoriaPage() {
                 ))}
               </div>
               <p className="mt-8 rounded-md border border-primary/40 bg-primary/10 p-4 text-sm">
-                Fórmula que Daniel pega en la cabina:{" "}
+                Fórmula que Pablo pega en la cabina:{" "}
                 <strong>utilidad = flete − (diésel + casetas + mantenimiento + nómina + fijos)</strong>
                 . Todo lo demás es opinión.
               </p>
@@ -777,7 +777,7 @@ export function HistoriaPage() {
             Estar al cargo no es conducir más unidades
           </h2>
           <p className="mt-6 max-w-2xl text-muted-foreground">
-            Daniel ya tiene flota. Ahora su trabajo real empieza: tomar decisiones que multipliquen
+            Pablo ya tiene flota. Ahora su trabajo real empieza: tomar decisiones que multipliquen
             lo que otros hacen. Esto es lo que conlleva ser el dueño de una empresa de trailers, de
             principio a fin.
           </p>
@@ -819,7 +819,7 @@ export function HistoriaPage() {
           </div>
 
           <p className="mx-auto mt-20 max-w-3xl text-center text-2xl font-light md:text-4xl">
-            Cinco años después, Daniel ya no maneja:{" "}
+            Cinco años después, Pablo ya no maneja:{" "}
             <span className="text-gradient-amber">dirige</span>. La diferencia no fue tener más
             trailers, fue aprender a estar al cargo de un negocio antes de querer crecerlo.
           </p>
@@ -834,7 +834,7 @@ export function HistoriaPage() {
             Elige tu flota y mira los números reales
           </h2>
           <p className="mt-6 max-w-2xl text-muted-foreground">
-            Antes de firmar nada, haz lo que Daniel no hizo el primer año: correr el presupuesto.
+            Antes de firmar nada, haz lo que Pablo no hizo el primer año: correr el presupuesto.
             Elige un escenario, mueve el precio del diésel y el rendimiento, y observa cómo cambian
             la utilidad, el margen y los años que tardas en recuperar la inversión.
           </p>
@@ -865,7 +865,7 @@ export function HistoriaPage() {
             Lo que puede tumbarte en un solo día
           </h2>
           <p className="mt-6 max-w-2xl text-muted-foreground">
-            Toca cada tarjeta para pasar del riesgo a la forma concreta de mitigarlo. Daniel aprendió
+            Toca cada tarjeta para pasar del riesgo a la forma concreta de mitigarlo. Pablo aprendió
             esta lista de la peor manera: viviéndola.
           </p>
           <RiesgosInteractivos />
