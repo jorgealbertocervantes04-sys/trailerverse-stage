@@ -9,9 +9,130 @@ import { CalculadoraTarifa } from "@/components/CalculadoraTarifa";
 import { ChecklistArranque } from "@/components/ChecklistArranque";
 import { Glosario } from "@/components/Glosario";
 import { QuizFinal } from "@/components/QuizFinal";
+import { DecisionEstacion, RamaCapitulo, type Opcion } from "@/components/DecisionEstacion";
+import { ModoInmersivo } from "@/components/ModoInmersivo";
+import { ReanudarViaje } from "@/components/ReanudarViaje";
+import { useProgresoGuardado, guardarProgreso, type Ruta } from "@/lib/progreso";
 import heroImg from "@/assets/trailer-hero.jpg";
 import cabImg from "@/assets/trailer-cab.jpg";
 import fleetImg from "@/assets/trailer-fleet.jpg";
+
+type Rama = { titulo: string; descripcion: string; puntos: { t: string; d: string }[] };
+
+const opcionesCarga: Opcion[] = [
+  {
+    id: "seca",
+    label: "Caja seca",
+    resumen: "Entrada más barata, más competencia y tarifas apretadas. La escuela del oficio.",
+    desvio: "Ruta A",
+  },
+  {
+    id: "refrigerada",
+    label: "Refrigerada",
+    resumen: "Tarifas altas y clientes exigentes. El equipo de frío es otro motor que mantener.",
+    desvio: "Ruta B",
+  },
+  {
+    id: "materiales",
+    label: "Granel / materiales",
+    resumen: "Viajes cortos y locales, pago rápido, desgaste brutal de suspensión y llantas.",
+    desvio: "Ruta C",
+  },
+];
+
+const ramasCarga: Record<string, Rama> = {
+  seca: {
+    titulo: "Tu historia: aprender con caja seca",
+    descripcion:
+      "Entras al mercado más grande y más peleado. Aquí ganas experiencia barata, pero tu utilidad depende de no dejar viajes vacíos.",
+    puntos: [
+      { t: "Inversión", d: "Caja usada de 53' desde una fracción del costo de una refrigerada." },
+      { t: "Clientes", d: "Brokers, paquetería, retail y manufactura ligera. Alta rotación." },
+      { t: "Riesgo", d: "Tarifa baja: sin control de costo por km, trabajas para el diésel." },
+      { t: "Meta", d: "Cerrar carga de retorno en al menos 7 de cada 10 viajes." },
+    ],
+  },
+  refrigerada: {
+    titulo: "Tu historia: la cadena de frío",
+    descripcion:
+      "Cobras más por viaje, pero el cliente te mide en grados y minutos. Una falla del termo puede costarte la carga completa.",
+    puntos: [
+      { t: "Inversión", d: "Termo, mantenimiento del equipo de frío y diésel extra del generador." },
+      { t: "Clientes", d: "Agroindustria, farmacéutica y alimentos. Contratos más largos." },
+      { t: "Riesgo", d: "Rechazo de carga por temperatura: necesitas seguro de mercancía sólido." },
+      { t: "Meta", d: "Registro de temperatura y mantenimiento del termo cada 500 horas." },
+    ],
+  },
+  materiales: {
+    titulo: "Tu historia: granel y materiales",
+    descripcion:
+      "Rutas cortas, cobros rápidos y menos papeleo comercial, a cambio de un desgaste mecánico que no perdona.",
+    puntos: [
+      { t: "Inversión", d: "Góndola o tolva; el tracto sufre más por peso y caminos malos." },
+      { t: "Clientes", d: "Constructoras, mineras y obra pública. Pagos por volumen." },
+      { t: "Riesgo", d: "Sobrepeso y multas; temporada baja cuando se frena la obra." },
+      { t: "Meta", d: "Reservar más presupuesto de suspensión, llantas y frenos por km." },
+    ],
+  },
+};
+
+const opcionesCrecimiento: Opcion[] = [
+  {
+    id: "propia",
+    label: "Con utilidad propia",
+    resumen: "Creces lento, sin deuda y con control total de las decisiones.",
+    desvio: "Ruta D",
+  },
+  {
+    id: "credito",
+    label: "A crédito",
+    resumen: "Creces rápido, pero cada unidad llega con una mensualidad fija.",
+    desvio: "Ruta E",
+  },
+  {
+    id: "socios",
+    label: "Con socios u operadores dueños",
+    resumen: "Sumas unidades sin invertir fierro, a cambio de margen y control.",
+    desvio: "Ruta F",
+  },
+];
+
+const ramasCrecimiento: Record<string, Rama> = {
+  propia: {
+    titulo: "Tu historia: crecer con caja propia",
+    descripcion:
+      "Cada unidad nueva sale de la utilidad acumulada. Nadie te presiona con un pago mensual, pero el reloj corre más lento.",
+    puntos: [
+      { t: "Ritmo", d: "Una unidad cada 18–30 meses si mantienes márgenes sanos." },
+      { t: "Ventaja", d: "Aguantas temporadas bajas sin riesgo de perder unidades." },
+      { t: "Cuidado", d: "No confundas la caja de la empresa con tu gasto personal." },
+      { t: "Indicador", d: "Fondo de reserva equivalente a 3 meses de operación." },
+    ],
+  },
+  credito: {
+    titulo: "Tu historia: crecer a crédito",
+    descripcion:
+      "El banco te presta escala. Funciona sólo si tienes carga contratada antes de firmar y control estricto de cobranza.",
+    puntos: [
+      { t: "Ritmo", d: "Puedes duplicar la flota en un año si el flujo aguanta." },
+      { t: "Ventaja", d: "Unidades nuevas: garantía, menos paros y mejor imagen ante clientes." },
+      { t: "Cuidado", d: "La mensualidad llega aunque el cliente pague a 90 días." },
+      { t: "Indicador", d: "La deuda mensual no debe pasar del 30% de tu ingreso operativo." },
+    ],
+  },
+  socios: {
+    titulo: "Tu historia: crecer con terceros",
+    descripcion:
+      "Sumas unidades de operadores dueños o socios. Creces sin invertir, pero tu negocio pasa a ser administración y clientes.",
+    puntos: [
+      { t: "Ritmo", d: "Escala inmediata: dependes de conseguir carga, no fierro." },
+      { t: "Ventaja", d: "Menor inversión y riesgo mecánico compartido." },
+      { t: "Cuidado", d: "Margen menor y menos control de calidad de servicio." },
+      { t: "Indicador", d: "Contrato claro de tarifas, seguros y responsabilidades por viaje." },
+    ],
+  },
+};
+
 
 const chapters = [
   { id: "cap-0", label: "El sueño" },
