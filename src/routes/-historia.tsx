@@ -338,6 +338,34 @@ export function HistoriaPage() {
 
       <RutaEstaciones estaciones={chapters} activo={activo} progress={progress} />
 
+      <ModoInmersivo
+        estacion={activo}
+        total={chapters.length}
+        etiqueta={chapters[activo]?.label ?? ""}
+        km={Math.round(progress * 2400)}
+        ruta={[ruta.carga, ruta.crecimiento].filter((v): v is string => !!v)}
+      />
+
+      {mostrarReanudar && guardado && (
+        <ReanudarViaje
+          etiqueta={chapters[guardado.estacion]?.label ?? ""}
+          estacion={guardado.estacion}
+          km={guardado.km}
+          onReanudar={() => {
+            const id = chapters[guardado.estacion]?.id;
+            if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+            setMostrarReanudar(false);
+          }}
+          onReiniciar={() => {
+            limpiar();
+            setRuta({ carga: null, crecimiento: null });
+            setMostrarReanudar(false);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
+      )}
+
+
       <div className="relative z-20">
         {/* CAP 0 */}
         <section
