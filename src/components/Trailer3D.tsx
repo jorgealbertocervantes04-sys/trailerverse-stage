@@ -81,9 +81,14 @@ function Box({
             transform: `translate(-50%, -50%) ${f.t}`,
             left: w / 2,
             top: h / 2,
-            boxShadow: glow ? "var(--glow-amber)" : undefined,
+            backgroundImage: sheen[tone],
+            boxShadow: glow
+              ? "var(--glow-amber)"
+              : "inset 0 1px 0 oklch(1 0 0 / 0.10), inset 0 -1px 0 oklch(0 0 0 / 0.25)",
+            transition: "box-shadow 200ms ease",
           }}
         />
+
       ))}
     </div>
   );
