@@ -174,9 +174,18 @@ const hotspots = [
 ];
 
 
-export function Trailer3D({ rotY, rotX, scale = 1, active }: Props) {
+export function Trailer3D({
+  rotY,
+  rotX,
+  scale = 1,
+  active,
+  onSelect,
+  luces = true,
+  spin = 0,
+}: Props) {
   const cabOn = active === "cabina";
   const boxOn = active === "caja";
+
 
   return (
     <div className="stage-3d pointer-events-none relative h-full w-full select-none">
