@@ -95,15 +95,28 @@ function Box({
 }
 
 /** Rueda con llanta + rin visible en ambas caras */
-function Wheel({ x, y, z, glow }: { x: number; y: number; z: number; glow?: boolean }) {
+function Wheel({
+  x,
+  y,
+  z,
+  glow,
+  spin = 0,
+}: {
+  x: number;
+  y: number;
+  z: number;
+  glow?: boolean;
+  spin?: number;
+}) {
   const r = 30;
   const width = 26;
   const sides = 14;
   return (
     <div
       className="preserve-3d absolute left-1/2 top-1/2"
-      style={{ transform: `translate3d(${x}px, ${y}px, ${z}px)` }}
+      style={{ transform: `translate3d(${x}px, ${y}px, ${z}px) rotateX(${spin}deg)` }}
     >
+
       {/* banda de rodamiento */}
       {Array.from({ length: sides }).map((_, i) => {
         const a = (360 / sides) * i;
