@@ -388,8 +388,13 @@ export function HistoriaPage() {
   const [activo, setActivo] = useState(0);
   const [ruta, setRuta] = useState<Ruta>({ carga: null, crecimiento: null });
   const [mostrarReanudar, setMostrarReanudar] = useState(false);
+  const [luces, setLuces] = useState(true);
+  const [autoGiro, setAutoGiro] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const [spin, setSpin] = useState(0);
   const { guardado, listo, limpiar } = useProgresoGuardado();
   const dragging = useRef<{ x: number; y: number; ry: number; rx: number } | null>(null);
+
 
   // recuperar el viaje guardado
   useEffect(() => {
