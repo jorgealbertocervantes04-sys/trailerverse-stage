@@ -147,8 +147,8 @@ function Wheel({
             left: -r,
             top: -r,
             transform: `translateZ(${zz}px)`,
-            background:
-              "radial-gradient(circle at 40% 35%, oklch(0.62 0.02 65), oklch(0.3 0.012 60) 62%, oklch(0.22 0.01 60))",
+            backgroundImage:
+              "conic-gradient(from 0deg, oklch(0.7 0.02 65) 0 6deg, transparent 6deg 45deg, oklch(0.7 0.02 65) 45deg 51deg, transparent 51deg 90deg, oklch(0.7 0.02 65) 90deg 96deg, transparent 96deg 135deg, oklch(0.7 0.02 65) 135deg 141deg, transparent 141deg 180deg, oklch(0.7 0.02 65) 180deg 186deg, transparent 186deg 225deg, oklch(0.7 0.02 65) 225deg 231deg, transparent 231deg 270deg, oklch(0.7 0.02 65) 270deg 276deg, transparent 276deg 315deg, oklch(0.7 0.02 65) 315deg 321deg, transparent 321deg), radial-gradient(circle at 40% 35%, oklch(0.62 0.02 65), oklch(0.3 0.012 60) 62%, oklch(0.22 0.01 60))",
           }}
         />
       ))}
@@ -161,6 +161,9 @@ type Props = {
   rotX: number;
   scale?: number;
   active: string | null;
+  onSelect?: (id: string | null) => void;
+  luces?: boolean;
+  spin?: number;
 };
 
 const hotspots = [
@@ -169,6 +172,7 @@ const hotspots = [
   { id: "quinta", label: "Quinta rueda", x: -95, y: -5, z: 70 },
   { id: "ejes", label: "Ejes traseros", x: 300, y: 75, z: 70 },
 ];
+
 
 export function Trailer3D({ rotY, rotX, scale = 1, active }: Props) {
   const cabOn = active === "cabina";
