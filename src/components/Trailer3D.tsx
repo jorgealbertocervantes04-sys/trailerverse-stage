@@ -26,6 +26,20 @@ const tones: Record<Tone, string> = {
   glass: "bg-steel-2",
 };
 
+/** capa especular que da sensación de pintura/metal real */
+const sheen: Record<Tone, string> = {
+  cab: "linear-gradient(165deg, oklch(1 0 0 / 0.20), transparent 42%, oklch(0 0 0 / 0.30))",
+  cabDark: "linear-gradient(165deg, oklch(1 0 0 / 0.12), transparent 45%, oklch(0 0 0 / 0.35))",
+  box: "linear-gradient(180deg, oklch(1 0 0 / 0.16), transparent 35%, oklch(0 0 0 / 0.28))",
+  boxLight: "linear-gradient(180deg, oklch(1 0 0 / 0.22), transparent 50%)",
+  wheel: "linear-gradient(180deg, oklch(0 0 0 / 0.3), transparent)",
+  chassis: "linear-gradient(180deg, oklch(1 0 0 / 0.08), oklch(0 0 0 / 0.35))",
+  chrome:
+    "linear-gradient(180deg, oklch(0.96 0 0 / 0.55), oklch(0.5 0 0 / 0.15) 38%, oklch(0.9 0 0 / 0.45) 55%, oklch(0.25 0 0 / 0.5))",
+  glass: "linear-gradient(150deg, oklch(0.85 0.05 220 / 0.55), oklch(0.25 0.03 230 / 0.85))",
+};
+
+
 function Box({
   w,
   h,
