@@ -420,14 +420,32 @@ export function HistoriaPage() {
 
 
   useEffect(() => {
+    let ultimo = typeof window !== "undefined" ? window.scrollY : 0;
     const onScroll = () => {
       const max = document.body.scrollHeight - window.innerHeight;
       setProgress(max > 0 ? window.scrollY / max : 0);
+      const delta = window.scrollY - ultimo;
+      ultimo = window.scrollY;
+      setSpin((s) => s + delta * 0.9);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // giro automático tipo "showroom"
+  useEffect(() => {
+    if (!autoGiro) return;
+    let raf = 0;
+    const tick = () => {
+      setRotY((r) => r + 0.25);
+      setSpin((s) => s + 2.5);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [autoGiro]);
+
 
   useEffect(() => {
     const nodes = chapters
