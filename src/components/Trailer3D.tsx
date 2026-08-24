@@ -345,7 +345,14 @@ export function Trailer3D({
           { x: 322, z: 76 },
           { x: 322, z: -76 },
         ].map((wct, i) => (
-          <Wheel key={i} x={wct.x} y={22} z={wct.z} glow={active === "ejes" && wct.x > 0} />
+          <Wheel
+            key={i}
+            x={wct.x}
+            y={22}
+            z={wct.z}
+            spin={spin}
+            glow={active === "ejes" && wct.x > 0}
+          />
         ))}
 
         {/* faros */}
@@ -356,12 +363,30 @@ export function Trailer3D({
             style={{
               width: 34,
               height: 16,
-              background: "var(--gradient-amber)",
-              boxShadow: "var(--glow-amber)",
+              background: luces ? "var(--gradient-amber)" : "oklch(0.4 0.02 80)",
+              boxShadow: luces ? "var(--glow-amber)" : "none",
               transform: `translate3d(-448px, -60px, ${zz}px) rotateY(-90deg)`,
+              transition: "all 240ms ease",
             }}
           />
         ))}
+        {/* haz de luz de los faros */}
+        {luces &&
+          [-56, 56].map((zz) => (
+            <div
+              key={`haz-${zz}`}
+              className="absolute left-1/2 top-1/2"
+              style={{
+                width: 420,
+                height: 120,
+                transform: `translate3d(-660px, -66px, ${zz}px) rotateX(88deg)`,
+                background:
+                  "linear-gradient(90deg, transparent, oklch(0.86 0.13 80 / 0.22) 65%, oklch(0.9 0.14 82 / 0.35))",
+                filter: "blur(10px)",
+                clipPath: "polygon(0 0, 100% 34%, 100% 66%, 0 100%)",
+              }}
+            />
+          ))}
         {/* luces de gálibo */}
         {[-330, -300, -270, -240].map((xx) => (
           <div
@@ -370,8 +395,8 @@ export function Trailer3D({
             style={{
               width: 7,
               height: 7,
-              background: "oklch(0.86 0.15 80)",
-              boxShadow: "0 0 12px oklch(0.86 0.15 80 / 0.9)",
+              background: luces ? "oklch(0.86 0.15 80)" : "oklch(0.45 0.03 80)",
+              boxShadow: luces ? "0 0 12px oklch(0.86 0.15 80 / 0.9)" : "none",
               transform: `translate3d(${xx}px, -222px, 74px)`,
             }}
           />
@@ -384,27 +409,41 @@ export function Trailer3D({
             style={{
               width: 12,
               height: 26,
-              background: "oklch(0.58 0.2 25)",
-              boxShadow: "0 0 16px oklch(0.58 0.2 25 / 0.8)",
+              background: luces ? "oklch(0.58 0.2 25)" : "oklch(0.35 0.08 25)",
+              boxShadow: luces ? "0 0 16px oklch(0.58 0.2 25 / 0.8)" : "none",
               transform: `translate3d(${374}px, -60px, ${zz}px) rotateY(90deg)`,
             }}
           />
         ))}
 
-        {/* hotspots */}
+        {/* hotspots interactivos */}
         {hotspots.map((h) => (
-          <div
+          <button
             key={h.id}
-            className={`absolute left-1/2 top-1/2 whitespace-nowrap rounded-full border px-3 py-1 text-[11px] uppercase tracking-widest backdrop-blur-sm ${
+            type="button"
+            aria-pressed={active === h.id}
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelect?.(active === h.id ? null : h.id);
+            }}
+            onMouseEnter={() => onSelect?.(h.id)}
+            className={`pointer-events-auto absolute left-1/2 top-1/2 cursor-pointer whitespace-nowrap rounded-full border px-3 py-1 text-[11px] uppercase tracking-widest backdrop-blur-sm transition-transform hover:scale-110 ${
               active === h.id
                 ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-card/70 text-muted-foreground"
+                : "border-border bg-card/70 text-muted-foreground hover:border-primary hover:text-foreground"
             }`}
             style={{ transform: `translate3d(${h.x}px, ${h.y}px, ${h.z}px) rotateY(${-rotY}deg)` }}
           >
+            <span
+              className={`mr-1.5 inline-block size-1.5 rounded-full ${
+                active === h.id ? "bg-primary-foreground" : "bg-primary animate-pulse"
+              }`}
+            />
             {h.label}
-          </div>
+          </button>
         ))}
+
       </div>
     </div>
   );
