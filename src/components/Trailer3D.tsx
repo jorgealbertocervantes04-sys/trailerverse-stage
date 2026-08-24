@@ -26,6 +26,20 @@ const tones: Record<Tone, string> = {
   glass: "bg-steel-2",
 };
 
+/** capa especular que da sensación de pintura/metal real */
+const sheen: Record<Tone, string> = {
+  cab: "linear-gradient(165deg, oklch(1 0 0 / 0.20), transparent 42%, oklch(0 0 0 / 0.30))",
+  cabDark: "linear-gradient(165deg, oklch(1 0 0 / 0.12), transparent 45%, oklch(0 0 0 / 0.35))",
+  box: "linear-gradient(180deg, oklch(1 0 0 / 0.16), transparent 35%, oklch(0 0 0 / 0.28))",
+  boxLight: "linear-gradient(180deg, oklch(1 0 0 / 0.22), transparent 50%)",
+  wheel: "linear-gradient(180deg, oklch(0 0 0 / 0.3), transparent)",
+  chassis: "linear-gradient(180deg, oklch(1 0 0 / 0.08), oklch(0 0 0 / 0.35))",
+  chrome:
+    "linear-gradient(180deg, oklch(0.96 0 0 / 0.55), oklch(0.5 0 0 / 0.15) 38%, oklch(0.9 0 0 / 0.45) 55%, oklch(0.25 0 0 / 0.5))",
+  glass: "linear-gradient(150deg, oklch(0.85 0.05 220 / 0.55), oklch(0.25 0.03 230 / 0.85))",
+};
+
+
 function Box({
   w,
   h,
@@ -67,24 +81,42 @@ function Box({
             transform: `translate(-50%, -50%) ${f.t}`,
             left: w / 2,
             top: h / 2,
-            boxShadow: glow ? "var(--glow-amber)" : undefined,
+            backgroundImage: sheen[tone],
+            boxShadow: glow
+              ? "var(--glow-amber)"
+              : "inset 0 1px 0 oklch(1 0 0 / 0.10), inset 0 -1px 0 oklch(0 0 0 / 0.25)",
+            transition: "box-shadow 200ms ease",
           }}
         />
+
       ))}
     </div>
   );
 }
 
 /** Rueda con llanta + rin visible en ambas caras */
-function Wheel({ x, y, z, glow }: { x: number; y: number; z: number; glow?: boolean }) {
+function Wheel({
+  x,
+  y,
+  z,
+  glow,
+  spin = 0,
+}: {
+  x: number;
+  y: number;
+  z: number;
+  glow?: boolean;
+  spin?: number;
+}) {
   const r = 30;
   const width = 26;
   const sides = 14;
   return (
     <div
       className="preserve-3d absolute left-1/2 top-1/2"
-      style={{ transform: `translate3d(${x}px, ${y}px, ${z}px)` }}
+      style={{ transform: `translate3d(${x}px, ${y}px, ${z}px) rotateX(${spin}deg)` }}
     >
+
       {/* banda de rodamiento */}
       {Array.from({ length: sides }).map((_, i) => {
         const a = (360 / sides) * i;
@@ -115,8 +147,8 @@ function Wheel({ x, y, z, glow }: { x: number; y: number; z: number; glow?: bool
             left: -r,
             top: -r,
             transform: `translateZ(${zz}px)`,
-            background:
-              "radial-gradient(circle at 40% 35%, oklch(0.62 0.02 65), oklch(0.3 0.012 60) 62%, oklch(0.22 0.01 60))",
+            backgroundImage:
+              "conic-gradient(from 0deg, oklch(0.7 0.02 65) 0 6deg, transparent 6deg 45deg, oklch(0.7 0.02 65) 45deg 51deg, transparent 51deg 90deg, oklch(0.7 0.02 65) 90deg 96deg, transparent 96deg 135deg, oklch(0.7 0.02 65) 135deg 141deg, transparent 141deg 180deg, oklch(0.7 0.02 65) 180deg 186deg, transparent 186deg 225deg, oklch(0.7 0.02 65) 225deg 231deg, transparent 231deg 270deg, oklch(0.7 0.02 65) 270deg 276deg, transparent 276deg 315deg, oklch(0.7 0.02 65) 315deg 321deg, transparent 321deg), radial-gradient(circle at 40% 35%, oklch(0.62 0.02 65), oklch(0.3 0.012 60) 62%, oklch(0.22 0.01 60))",
           }}
         />
       ))}
@@ -129,6 +161,9 @@ type Props = {
   rotX: number;
   scale?: number;
   active: string | null;
+  onSelect?: (id: string | null) => void;
+  luces?: boolean;
+  spin?: number;
 };
 
 const hotspots = [
@@ -138,9 +173,19 @@ const hotspots = [
   { id: "ejes", label: "Ejes traseros", x: 300, y: 75, z: 70 },
 ];
 
-export function Trailer3D({ rotY, rotX, scale = 1, active }: Props) {
+
+export function Trailer3D({
+  rotY,
+  rotX,
+  scale = 1,
+  active,
+  onSelect,
+  luces = true,
+  spin = 0,
+}: Props) {
   const cabOn = active === "cabina";
   const boxOn = active === "caja";
+
 
   return (
     <div className="stage-3d pointer-events-none relative h-full w-full select-none">
@@ -300,7 +345,14 @@ export function Trailer3D({ rotY, rotX, scale = 1, active }: Props) {
           { x: 322, z: 76 },
           { x: 322, z: -76 },
         ].map((wct, i) => (
-          <Wheel key={i} x={wct.x} y={22} z={wct.z} glow={active === "ejes" && wct.x > 0} />
+          <Wheel
+            key={i}
+            x={wct.x}
+            y={22}
+            z={wct.z}
+            spin={spin}
+            glow={active === "ejes" && wct.x > 0}
+          />
         ))}
 
         {/* faros */}
@@ -311,12 +363,30 @@ export function Trailer3D({ rotY, rotX, scale = 1, active }: Props) {
             style={{
               width: 34,
               height: 16,
-              background: "var(--gradient-amber)",
-              boxShadow: "var(--glow-amber)",
+              background: luces ? "var(--gradient-amber)" : "oklch(0.4 0.02 80)",
+              boxShadow: luces ? "var(--glow-amber)" : "none",
               transform: `translate3d(-448px, -60px, ${zz}px) rotateY(-90deg)`,
+              transition: "all 240ms ease",
             }}
           />
         ))}
+        {/* haz de luz de los faros */}
+        {luces &&
+          [-56, 56].map((zz) => (
+            <div
+              key={`haz-${zz}`}
+              className="absolute left-1/2 top-1/2"
+              style={{
+                width: 420,
+                height: 120,
+                transform: `translate3d(-660px, -66px, ${zz}px) rotateX(88deg)`,
+                background:
+                  "linear-gradient(90deg, transparent, oklch(0.86 0.13 80 / 0.22) 65%, oklch(0.9 0.14 82 / 0.35))",
+                filter: "blur(10px)",
+                clipPath: "polygon(0 0, 100% 34%, 100% 66%, 0 100%)",
+              }}
+            />
+          ))}
         {/* luces de gálibo */}
         {[-330, -300, -270, -240].map((xx) => (
           <div
@@ -325,8 +395,8 @@ export function Trailer3D({ rotY, rotX, scale = 1, active }: Props) {
             style={{
               width: 7,
               height: 7,
-              background: "oklch(0.86 0.15 80)",
-              boxShadow: "0 0 12px oklch(0.86 0.15 80 / 0.9)",
+              background: luces ? "oklch(0.86 0.15 80)" : "oklch(0.45 0.03 80)",
+              boxShadow: luces ? "0 0 12px oklch(0.86 0.15 80 / 0.9)" : "none",
               transform: `translate3d(${xx}px, -222px, 74px)`,
             }}
           />
@@ -339,27 +409,41 @@ export function Trailer3D({ rotY, rotX, scale = 1, active }: Props) {
             style={{
               width: 12,
               height: 26,
-              background: "oklch(0.58 0.2 25)",
-              boxShadow: "0 0 16px oklch(0.58 0.2 25 / 0.8)",
+              background: luces ? "oklch(0.58 0.2 25)" : "oklch(0.35 0.08 25)",
+              boxShadow: luces ? "0 0 16px oklch(0.58 0.2 25 / 0.8)" : "none",
               transform: `translate3d(${374}px, -60px, ${zz}px) rotateY(90deg)`,
             }}
           />
         ))}
 
-        {/* hotspots */}
+        {/* hotspots interactivos */}
         {hotspots.map((h) => (
-          <div
+          <button
             key={h.id}
-            className={`absolute left-1/2 top-1/2 whitespace-nowrap rounded-full border px-3 py-1 text-[11px] uppercase tracking-widest backdrop-blur-sm ${
+            type="button"
+            aria-pressed={active === h.id}
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelect?.(active === h.id ? null : h.id);
+            }}
+            onMouseEnter={() => onSelect?.(h.id)}
+            className={`pointer-events-auto absolute left-1/2 top-1/2 cursor-pointer whitespace-nowrap rounded-full border px-3 py-1 text-[11px] uppercase tracking-widest backdrop-blur-sm transition-transform hover:scale-110 ${
               active === h.id
                 ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-card/70 text-muted-foreground"
+                : "border-border bg-card/70 text-muted-foreground hover:border-primary hover:text-foreground"
             }`}
             style={{ transform: `translate3d(${h.x}px, ${h.y}px, ${h.z}px) rotateY(${-rotY}deg)` }}
           >
+            <span
+              className={`mr-1.5 inline-block size-1.5 rounded-full ${
+                active === h.id ? "bg-primary-foreground" : "bg-primary animate-pulse"
+              }`}
+            />
             {h.label}
-          </div>
+          </button>
         ))}
+
       </div>
     </div>
   );

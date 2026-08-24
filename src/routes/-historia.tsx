@@ -388,8 +388,13 @@ export function HistoriaPage() {
   const [activo, setActivo] = useState(0);
   const [ruta, setRuta] = useState<Ruta>({ carga: null, crecimiento: null });
   const [mostrarReanudar, setMostrarReanudar] = useState(false);
+  const [luces, setLuces] = useState(true);
+  const [autoGiro, setAutoGiro] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const [spin, setSpin] = useState(0);
   const { guardado, listo, limpiar } = useProgresoGuardado();
   const dragging = useRef<{ x: number; y: number; ry: number; rx: number } | null>(null);
+
 
   // recuperar el viaje guardado
   useEffect(() => {
@@ -415,14 +420,32 @@ export function HistoriaPage() {
 
 
   useEffect(() => {
+    let ultimo = typeof window !== "undefined" ? window.scrollY : 0;
     const onScroll = () => {
       const max = document.body.scrollHeight - window.innerHeight;
       setProgress(max > 0 ? window.scrollY / max : 0);
+      const delta = window.scrollY - ultimo;
+      ultimo = window.scrollY;
+      setSpin((s) => s + delta * 0.9);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // giro automático tipo "showroom"
+  useEffect(() => {
+    if (!autoGiro) return;
+    let raf = 0;
+    const tick = () => {
+      setRotY((r) => r + 0.25);
+      setSpin((s) => s + 2.5);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [autoGiro]);
+
 
   useEffect(() => {
     const nodes = chapters
