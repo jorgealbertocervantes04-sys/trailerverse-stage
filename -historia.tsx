@@ -12,7 +12,6 @@ import { QuizFinal } from "@/components/QuizFinal";
 import { DecisionEstacion, RamaCapitulo, type Opcion } from "@/components/DecisionEstacion";
 import { ModoInmersivo } from "@/components/ModoInmersivo";
 import { ReanudarViaje } from "@/components/ReanudarViaje";
-import { QuizLiveOverlay } from "@/components/QuizLiveOverlay";
 import { useProgresoGuardado, guardarProgreso, type Ruta } from "@/lib/progreso";
 import heroImg from "@/assets/trailer-hero.jpg";
 import cabImg from "@/assets/trailer-cab.jpg";
@@ -493,7 +492,6 @@ export function HistoriaPage() {
 
   return (
     <main className="relative">
-      <QuizLiveOverlay />
       <div
         className="fixed inset-0 z-0 cursor-grab active:cursor-grabbing"
         onPointerDown={(e) =>
